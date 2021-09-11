@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+{% include 'mini/navbar.html' %}
+
+<p> Haqiqatan ham "{{order|upper}}" ning buyurtmasini o'chirmoqchimisiz? </p>
+
+<form action="{% url 'delete_order' order.id %}" method="POST">
+    {% csrf_token %}
+    
+    <a class="btn btn-info" href="{% url 'home' %}">Bekor qilish</a>
+    <input class="btn btn-danger" type="submit" name="O'chirish">
+</form>
+
+
+{% endblock content %}

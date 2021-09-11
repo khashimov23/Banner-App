@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+{% include 'mini/navbar.html' %}
+
+{% include 'mini/status.html' %}
+
+
+
+
+<br>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+           
+            <div class="card-body">
+                <h4 class="box-title">Joy egalari </h4>
+                <hr>
+                <div style="width: 50%;">
+                    <a class="btn btn-sm btn-primary btn-block"  href="{% url 'create_owner' %}">Yangi Joy egasini qo'shish</a>
+                </div>
+            </div>
+                <div class="table-stats order-table ov-h">
+                    <table class="table">
+                        <tr>
+                            <th>Ismi</th>
+                            <th>Telefon</th>
+                            <th>Joylari soni</th>
+                            <th>Ko'rish</th>
+
+                            {% for i in egasi %}
+                            <tr>   
+                                <td><span >{{i.name}}</span> </td>
+                                <td><span >{{i.phone}}</span></td>
+                                <td><span >{{i.places_count}}</span></td>
+
+                               
+                                <td><a class="btn btn-sm btn-info" href="{% url 'place_detail' i.id %}">Batafsil</a></td>
+                            
+                            </tr>
+                            {% endfor %}
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock content %}

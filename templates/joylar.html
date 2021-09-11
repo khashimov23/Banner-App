@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+{% include 'mini/navbar.html' %}
+
+<div class="row">
+        
+        
+    <div class="col-lg-4 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="stat-widget-five">
+                    <div class="stat-icon dib flat-color-4">
+                        <i class="pe-7s-airplay text-center"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="text-left dib">
+                            <div class="stat-text"><span class="count">{{total_places_count}}</span></div>
+                            <div class="stat-heading">Barcha joylar</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-lg-4 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="stat-widget-five">
+                    <div class="stat-icon dib flat-color-1">
+                        <i class="ti-link"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="text-left dib">
+                            <div class="stat-text"><span class="count">{{busy_places_count}}</span></div>
+                            <div class="stat-heading">Band joylar</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="stat-widget-five">
+                    <div class="stat-icon dib flat-color-2">
+                        <i class="pe-7s-next-2"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="text-left dib">
+                            <div class="stat-text"><span class="count">{{free_places_count}}</span></div>
+                            <div class="stat-heading">Bo'sh joylar</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        
+</div>
+
+
+     
+<br>
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+       
+        <div class="card-body">
+            <h4 class="box-title">Barcha bo'sh joylar:</h4>
+        </div>
+            <div class="table-stats order-table ov-h">
+                <table class="table">
+                    <tr>
+                        <th>Manzili</th>
+                        <th>Narxi</th>
+                        <th>Joy holati</th>
+                        <th>Ko'rish</th>
+
+                        {% for free in free_places %}
+                        <tr>   
+                            <td><span >{{free.address}}</span> </td>
+                            <td><span >{{free.price}}</span></td>
+                            <td><span class="badge" style="background-color: #F6D167;">{{free.busy}}</span></td>
+
+                            <td><a class="btn btn-sm btn-info" href="">Batafsil</a></td>  
+                        
+                        </tr>
+                        {% endfor %}
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-md-6">
+        <div class="card">
+       
+        <div class="card-body">
+            <h4 class="box-title">Barcha band joylar:</h4>
+        </div>
+            <div class="table-stats order-table ov-h">
+                <table class="table">
+                    <tr>
+                        <th>Manzili</th>
+                        <th>Narxi</th>
+                        <th>Joy holati</th>
+                        <th>Ko'rish</th>
+
+                        {% for busy in busy_places %}
+                        <tr>   
+                            <td><span >{{busy.address}}</span> </td>
+                            <td><span >{{busy.price}}</span></td>
+                            <td><span class="badge " style="background-color: #3C5186;">{{busy.busy}}</span></td>
+                            <td><a class="btn btn-sm btn-info" href="">Batafsil</a></td>  
+                        
+                        </tr>
+                        {% endfor %}
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

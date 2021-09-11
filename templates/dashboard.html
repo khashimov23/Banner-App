@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+{% include 'mini/navbar.html' %}       
+
+<!-- Animated -->
+
+             
+{% include 'mini/status.html' %}
+  <br>
+<div class="row">
+    <div class="col-md-5">
+        <div class="card">
+       
+            <div class="card-body">
+                <h4 class="box-title">Joy Egalari</h4>
+            </div>
+                <div class="table-stats order-table ov-h">
+
+                    <table class="table">
+                        <tr>
+                            <th>Ismi</th>
+                            <th>Telefon</th>
+                            <th>Joylari soni</th>
+                            <th>Ko'rish</th>
+
+                            {% for i in egalari %}
+                            <tr>   
+                                <td><span >{{i.name}}</span> </td>
+                                <td><span >{{i.phone}}</span></td>
+                                <td><span >{{i.places_count}}</span></td>
+
+                               
+                                <td><a class="btn btn-sm btn-info" href="{% url 'place_detail' i.id %}">Batafsil</a></td>
+                            </tr>
+                            {% endfor %}
+                        </tr>
+
+                    </table>
+                </div>
+        </div>
+    </div>
+    <div class="col-md-7">
+        <div class="card">
+       
+            <div class="card-body">
+                <h4 class="box-title">Amaldagi Buyurtmalar</h4>
+               
+            </div>
+                <div class="table-stats order-table ov-h">
+                    <table class="table">
+                <tr>
+                    <th>Tadbirkor</th>
+                    <th>Joy</th>
+                    <th>Boshlanish sanasi</th>
+                    <th>Tugash sanasi</th>
+                    <th>O'zgartirish</th>
+                    <th>O'chirish</th>
+                </tr>
+
+                {% for i in orders %}
+                <tr>
+                    <td>{{ i.tadbirkor.name }}</td>
+                    <td>{{ i.place.address }}</td>
+                    <td>{{ i.start_date }}</td>
+                    <td>{{ i.end_date }}</td>
+                    <td><a class="btn btn-sm btn-info" href="{% url 'update_order' i.id %}">O'zgartirish</a></td>
+                    <td><a class="btn btn-sm btn-danger" href="{% url 'delete_order' i.id %}">O'chirish</a></td>    
+                </tr>
+                {% endfor %}
+                    
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- /.content -->
+
+        
+        
+{% include 'mini/footer.html' %}
+
+{% endblock content %}

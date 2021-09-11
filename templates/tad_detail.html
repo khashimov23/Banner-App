@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+{% include 'mini/navbar.html' %}
+      
+
+
+<br>
+<div class="row">
+    <div class="col-md">
+        <div class="card">
+        <div class="card-body">
+            <h5>Tadbirkor: {{ tadbirkor.name }}</h5>
+            <hr>
+            <a class="btn btn-outline-info  btn-sm btn-block" href="{% url 'update_tadbirkor' tadbirkor.id %}" >O'zgartirish</a>
+            <a class="btn btn-outline-danger  btn-sm btn-block" href="{% url 'delete_tadbirkor' tadbirkor.id %}" >O'chirish</a>
+                        
+        </div>
+    </div>
+    </div>
+
+    <div class="col-md">
+        <div class="card">
+            <div class="card-body">
+                <h5>{{tadbirkor.name}} haqida ma'lumotlar</h5>
+                <hr>
+                <p>Nomi: {{ tadbirkor.name }}</p>
+                <p>Telefon: {{ tadbirkor.phone }}</p>
+            </div>
+        </div>
+       
+    </div>
+
+    <div class="col-md">
+        <div class="card">
+
+        
+        <div class="card-body">
+            <h5>Buyurtmalar soni</h5>
+            <hr>
+            <h1 style="text-align: center; padding: 10px;">{{ orders_count }}</h1>            
+        </div>
+        </div>
+    </div>
+    
+</div>
+
+<br>
+<br>
+
+<div class="row">
+    <div class="col-md">
+        <div class="card">
+        <div class="card-body">
+            <h4 class="box-title">"{{ tadbirkor.name }}"ning Amaldagi Buyurtmalari</h4>
+            <hr>
+            <div style="width: 25%;">
+            <a class="btn btn-sm btn-primary btn-block" href="{% url 'create_order' %}">Buyurtma yaratish</a>
+            </div>
+        </div>
+            <div class="table-stats order-table ov-h">
+            <table class="table table-sm">
+                <tr>
+                    <th>Tadbirkor</th>
+                    <th>Joy</th>
+                    <th>Boshlanish sanasi</th>
+                    <th>Tugash sanasi</th>
+                    <th>O'zgartirish</th>
+                    <th>O'chirish</th>
+                </tr>
+
+                {% for i in orders %}
+                <tr>
+                    <td>{{ i.tadbirkor.name }}</td>
+                    <td>{{ i.place.address }}</td>
+                    <td>{{ i.start_date }}</td>
+                    <td>{{ i.end_date }}</td>
+                    <td><a class="btn btn-sm btn-info" href="{% url 'update_order' i.id %}">O'zgartirish</a></td>
+                    <td><a class="btn btn-sm btn-danger" href="{% url 'delete_order' i.id %}">O'chirish</a></td>    
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        </div>
+    </div>
+    </div>
+</div>
+
+
+
+{% endblock content %}

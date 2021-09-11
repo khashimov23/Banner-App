@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+{% include 'mini/navbar.html' %}
+      
+
+
+<br>
+<div class="row">
+    <div class="col-md">
+        <div class="card">
+        <div class="card-body">
+            <h5>Joy egasi: {{ egasi.name }}</h5>
+            <hr>
+            <a class="btn btn-outline-info  btn-sm btn-block" href="{% url 'update_owner' egasi.id %}" >O'zgartirish</a>
+            <a class="btn btn-outline-danger  btn-sm btn-block" href="{% url 'delete_owner' egasi.id %}" >O'chirish</a>
+                        
+        </div>
+    </div>
+    </div>
+
+    <div class="col-md">
+        <div class="card">
+            <div class="card-body">
+                <h5>{{egasi.name}} haqida ma'lumotlar</h5>
+                <hr>
+                <p>Ismi: {{ egasi.name }}</p>
+                <p>Telefon: {{ egasi.phone }}</p>
+            </div>
+        </div>
+       
+    </div>
+
+    <div class="col-md">
+        <div class="card">
+
+        
+        <div class="card-body">
+            <h5>Joylari soni</h5>
+            <hr>
+            <h1 style="text-align: center; padding: 10px;">
+                {{places_count}}</h1>            
+        </div>
+        </div>
+    </div>
+    
+</div>
+
+<br> 
+<div class="row">
+    <div class="col-md">
+        <div class="card">
+       
+        <div class="card-body">
+            <h4 class="box-title">"{{egasi.name}}"ning joylari haqida ma'lumot</h4>
+            <hr>
+            <div style="width: 25%;">
+                <a class="btn btn-sm btn-primary btn-block"  href="{% url 'create_joy' %}">Yangi joy qo'shish</a>
+            </div>
+        </div>
+            <div class="table-stats order-table ov-h">
+                <table class="table">
+                    <tr>
+                        <th>Manzili</th>
+                        <th>Narxi</th>
+                        <th>Joy holati</th>
+                        <th>O'zgartirish</th>
+                        <th>O'chirish</th>
+                        <th>Ko'rish</th>
+
+                        {% for place in places %}
+                        <tr>   
+                            <td><span >{{place.address}}</span> </td>
+                            <td><span >{{place.price}}</span></td>
+                            {% if place.busy == "Band" %}
+                            <td><span class="badge " style="background-color: #3C5186;">{{place.busy}}</span></td>
+                            {% else %}
+                            <td><span class="badge" style="background-color: #F6D167;">{{place.busy}}</span></td>
+                            {% endif %}
+                            <td><a class="btn btn-sm btn-info" href="{% url 'update_joy' place.id %}">O'zgartirish</a></td>
+                            <td><a class="btn btn-sm btn-danger" href="{% url 'delete_joy' place.id %}">O'chirish</a></td>  
+                            
+                            <td><a class="btn btn-sm btn-info" href="">Batafsil</a></td>  
+                        
+                        </tr>
+                        {% endfor %}
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+{% endblock content %}

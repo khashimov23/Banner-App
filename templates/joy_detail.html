@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+{% include 'mini/navbar.html' %}
+      
+
+
+<br>
+
+<div class="row">
+    <div class="col-md">
+        <div class="card">
+        <div class="card-body">
+            <h4 class="box-title">"{{ tadbirkor.name }}"ning Amaldagi Buyurtmalari</h4>
+            <hr>
+            <div style="width: 25%;">
+            <a class="btn btn-sm btn-primary btn-block" href="">Buyurtma yaratish</a>
+            </div>
+        </div>
+            <div class="table-stats order-table ov-h">
+            <table class="table table-sm">
+                <tr>
+                    <th>Tadbirkor</th>
+                    <th>Joy</th>
+                    <th>Boshlanish sanasi</th>
+                    <th>Tugash sanasi</th>
+                    <th>O'zgartirish</th>
+                    <th>O'chirish</th>
+                </tr>
+
+                {% for i in orders %}
+                <tr>
+                    <td>{{ i.tadbirkor.name }}</td>
+                    <td>{{ i.place.address }}</td>
+                    <td>{{ i.start_date }}</td>
+                    <td>{{ i.end_date }}</td>
+                    <td><a class="btn btn-sm btn-info" href="">O'zgartirish</a></td>
+                    <td><a class="btn btn-sm btn-danger" href="">O'chirish</a></td>    
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        </div>
+    </div>
+    </div>
+</div>
+
+
+
+{% endblock content %}

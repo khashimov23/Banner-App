@@ -1,0 +1,32 @@
+{% load static %}
+
+    <header id="header" class="header">
+        <div class="top-left">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="./"><img src="{% static 'images/logo.png' %}" alt="Logo"></a>
+                <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
+            </div>
+        </div>
+        <div class="top-right">
+            <div class="header-menu ">
+                <div class="header-left ">
+
+                    <ul class="nav justify-content-center mt-2">
+                        <li class="nav-item mt-2">            
+                            <span >Salom, {{request.user}}</span><b class="ml-1">|</b>
+                            <span><a href="{% url 'logout' %}">Chiqish</a></span>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="#">Link</a>
+                        </li>
+                      </ul>
+
+                </div>
+
+            </div>
+        </div>
+    </header>
+    
+
+    <div class="content">
+        <div class="animated fadeIn">

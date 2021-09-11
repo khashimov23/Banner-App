@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+{% include 'mini/navbar.html' %}
+
+<p> Haqiqatan ham "{{tadbirkor|upper}}" ni o'chirmoqchimisiz? </p>
+
+<form action="{% url 'delete_tadbirkor' tadbirkor.id %}" method="POST">
+    {% csrf_token %}
+    
+    <a class="btn btn-info" href="{% url 'tadbirkor_detail' tadbirkor.id %}">Bekor qilish</a>
+    <input class="btn btn-danger" type="submit" name="O'chirish">
+</form>
+
+
+{% endblock content %}

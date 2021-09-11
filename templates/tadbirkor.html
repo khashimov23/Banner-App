@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+{% include 'mini/navbar.html' %}
+
+      <div class="row">
+        
+         <div class="col-lg-3 col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <div class="stat-widget-five">
+                        <div class="stat-icon dib flat-color-4">
+                            <i class="pe-7s-users"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="text-left dib">
+                                <div class="stat-text"><span class="count">{{tadbirkorlar_soni}}</span></div>
+                                <div class="stat-heading">Tadbirkorlar soni</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+      </div>
+
+
+     
+<br>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+       
+        <div class="card-body">
+            <h4 class="box-title">Tadbirkorlar haqida ma'lumot</h4>
+            <hr>
+            <div style="width: 50%;">
+                <a class="btn btn-sm btn-primary btn-block" href="{% url 'create_tadbirkor' %}">Yangi tadbirkor qo'shish</a>
+            </div>
+        </div>
+            <div class="table-stats order-table ov-h">
+                <table class="table">
+                    <tr>
+                        <th>Nomi</th>
+                        <th>Telefon</th>
+                        <th>Info</th>
+
+                        <th>Ko'rish</th>
+
+                        {% for tadbirkor in tadbirkorlar %}
+                        <tr>         
+                            <td><span>{{tadbirkor.name}}</span></td>
+                            <td><span>{{tadbirkor.phone}}</span></td>
+                            <td><span>{{tadbirkor.info}}</span></td>
+
+                            <td><a class="btn btn-sm btn-info" href="{% url 'tadbirkor_detail' tadbirkor.id %}">Batafsil</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
