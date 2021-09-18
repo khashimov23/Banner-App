@@ -26,14 +26,12 @@
                             <th>Ko'rish</th>
 
                             {% for i in egalari %}
-                            <tr>   
-                                <td><span >{{i.name}}</span> </td>
-                                <td><span >{{i.phone}}</span></td>
-                                <td><span >{{i.places_count}}</span></td>
-
-                               
-                                <td><a class="btn btn-sm btn-info" href="{% url 'place_detail' i.id %}">Batafsil</a></td>
-                            </tr>
+                                <tr>   
+                                    <td><span >{{i.username}}</span> </td>
+                                    <td><span >{{i.phone}}</span></td>
+                                    <td><span >{{i.places_count}}</span></td>
+                                    <td><a class="btn btn-sm btn-info" href="{% url 'owner_detail' i.id %}">Batafsil</a></td>
+                                </tr>
                             {% endfor %}
                         </tr>
 
@@ -59,15 +57,38 @@
                     <th>O'chirish</th>
                 </tr>
 
-                {% for i in orders %}
+                {% for i in active %}
+
                 <tr>
                     <td>{{ i.tadbirkor.name }}</td>
                     <td>{{ i.place.address }}</td>
                     <td>{{ i.start_date }}</td>
                     <td>{{ i.end_date }}</td>
-                    <td><a class="btn btn-sm btn-info" href="{% url 'update_order' i.id %}">O'zgartirish</a></td>
-                    <td><a class="btn btn-sm btn-danger" href="{% url 'delete_order' i.id %}">O'chirish</a></td>    
+                    <td><a class="btn btn-sm btn-info" href="{% url 'update_order' i.id %}">O'zgartirish</a></td> 
+                    
+                    <td>
+                        <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#order-delete"> O'chirish </button>
+                          
+
+                          <!-- Modal -->
+                          <div class="modal fade" id="order-delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" style="text-transform: none;" id="exampleModalLabel">({{i}}) ning buyurtmasini o'chirmoqchimisiz?</h5>
+                                </div>
+                                <div class="modal-body">
+                                        <a type="button" class="btn btn-sm btn-secondary" data-dismiss="modal" href="{% url 'home' %}">Bekor qilish</a>
+                                        <a type="button" class="btn btn-sm btn-danger" href="{% url 'delete_order' i.id %}">O'chirish</a>                                     
+                                </div>
+                            </div>
+                          </div>
+                          </div>
+                    </td>  
+                    
+                    
                 </tr>
+                
                 {% endfor %}
                     
                 </table>

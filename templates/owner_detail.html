@@ -5,16 +5,30 @@
 {% include 'mini/navbar.html' %}
       
 
-
 <br>
 <div class="row">
     <div class="col-md">
         <div class="card">
         <div class="card-body">
-            <h5>Joy egasi: {{ egasi.name }}</h5>
+            <h5>Joy egasi: {{ egasi.username }}</h5>
             <hr>
-            <a class="btn btn-outline-info  btn-sm btn-block" href="{% url 'update_owner' egasi.id %}" >O'zgartirish</a>
-            <a class="btn btn-outline-danger  btn-sm btn-block" href="{% url 'delete_owner' egasi.id %}" >O'chirish</a>
+            
+            <button type="button" class="btn btn-outline-danger  btn-sm btn-block" data-toggle="modal" data-target="#place-delete"> O'chirish </button>
+
+                <div class="modal fade" id="place-delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" style="text-transform: none;" id="exampleModalLabel">({{egasi}}) ni o'chirmoqchimisiz?</h5>
+                    </div>
+                    <div class="modal-body">
+                            <a type="button" class="btn btn-sm btn-info" data-dismiss="modal" href="{% url 'owner_detail' egasi.id %}">Bekor qilish</a>
+                            <a type="button" class="btn btn-sm btn-danger" href="{% url 'delete_owner' egasi.id %}">O'chirish</a>                                     
+                    </div>
+                    </div>
+                </div>
+                </div>
+          
                         
         </div>
     </div>
@@ -23,9 +37,9 @@
     <div class="col-md">
         <div class="card">
             <div class="card-body">
-                <h5>{{egasi.name}} haqida ma'lumotlar</h5>
+                <h5>{{egasi.username}} haqida ma'lumotlar</h5>
                 <hr>
-                <p>Ismi: {{ egasi.name }}</p>
+                <p>Ism: {{ egasi.username }}</p>
                 <p>Telefon: {{ egasi.phone }}</p>
             </div>
         </div>
@@ -39,25 +53,20 @@
         <div class="card-body">
             <h5>Joylari soni</h5>
             <hr>
-            <h1 style="text-align: center; padding: 10px;">
-                {{places_count}}</h1>            
+            <h1 style="text-align: center; padding: 10px;">{{places_count}}</h1>            
         </div>
         </div>
     </div>
     
 </div>
-
 <br> 
 <div class="row">
     <div class="col-md">
         <div class="card">
        
         <div class="card-body">
-            <h4 class="box-title">"{{egasi.name}}"ning joylari haqida ma'lumot</h4>
-            <hr>
-            <div style="width: 25%;">
-                <a class="btn btn-sm btn-primary btn-block"  href="{% url 'create_joy' %}">Yangi joy qo'shish</a>
-            </div>
+            <h4 class="box-title">{{egasi.username}} ning joylari haqida ma'lumotlar</h4>
+           
         </div>
             <div class="table-stats order-table ov-h">
                 <table class="table">
@@ -70,18 +79,34 @@
                         <th>Ko'rish</th>
 
                         {% for place in places %}
-                        <tr>   
+                        <tr style="text-transform: none;">   
                             <td><span >{{place.address}}</span> </td>
                             <td><span >{{place.price}}</span></td>
                             {% if place.busy == "Band" %}
-                            <td><span class="badge " style="background-color: #3C5186;">{{place.busy}}</span></td>
+                            <td><span class="badge " style="background-color: crimson;">{{place.busy}}</span></td>
                             {% else %}
-                            <td><span class="badge" style="background-color: #F6D167;">{{place.busy}}</span></td>
+                            <td><span class="badge" style="background-color: green;">{{place.busy}}</span></td>
                             {% endif %}
                             <td><a class="btn btn-sm btn-info" href="{% url 'update_joy' place.id %}">O'zgartirish</a></td>
-                            <td><a class="btn btn-sm btn-danger" href="{% url 'delete_joy' place.id %}">O'chirish</a></td>  
+                            <td>
+                                <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#owner-delete"> O'chirish </button>
+                                  
+                                  <div class="modal fade" id="owner-delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h5 class="modal-title" style="text-transform: none;" id="exampleModalLabel">({{place}}) ni o'chirmoqchimisiz?</h5>
+                                        </div>
+                                        <div class="modal-body">
+                                                <a type="button" class="btn btn-sm btn-secondary" data-dismiss="modal" href="{% url 'owner_detail' place.id %}">Bekor qilish</a>
+                                                <a type="button" class="btn btn-sm btn-danger" href="{% url 'delete_joy' place.id %}">O'chirish</a>                                     
+                                        </div>
+                                    </div>
+                                    </div>
+                                  </div>
+                            </td>  
                             
-                            <td><a class="btn btn-sm btn-info" href="">Batafsil</a></td>  
+                            <td><a class="btn btn-sm btn-info" href="{% url 'joy_detail' place.id %}">Batafsil</a></td>  
                         
                         </tr>
                         {% endfor %}

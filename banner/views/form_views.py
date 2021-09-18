@@ -1,11 +1,13 @@
+from django import forms
 from banner.models import Order, Place, Place_owner, Tadbirkor
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
-from banner.forms import OrderForm, OwnerForm, TadbirkorForm, JoyForm
+from banner.forms import OrderForm, TadbirkorForm, JoyForm, OwnerForm
 from django.contrib.auth.decorators import login_required
 
-from django.http import HttpResponseRedirect
-from django.urls import reverse
+from django.contrib import messages
+
+
 
 
 @login_required(login_url='login')
@@ -32,7 +34,7 @@ def updateOwner(request, pk):
         form = OwnerForm(request.POST, instance=egasi)
         if form.is_valid():
             form.save()
-            return redirect('place')
+            return redirect('/')
 
     context = {'form': form}
     return render(request, 'forms/owner_form.html', context)
@@ -42,15 +44,8 @@ def updateOwner(request, pk):
 @login_required(login_url='login')
 def deleteOwner(request, pk):
     egasi = Place_owner.objects.get(id=pk)
-    if request.method == 'POST':
-        egasi.delete()
-        return redirect('place')
-
-    context = {'egasi':egasi}
-    return render(request, 'forms/owner_delete.html', context)
-
-
-
+    egasi.delete()
+    return redirect('/')
 
 
 
@@ -63,7 +58,7 @@ def createTadbirkor(request):
         form = TadbirkorForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('tadbirkor')
+            return redirect('create_order')
 
     context = {'form': form}
     return render(request, 'forms/tadbirkor_form.html', context)
@@ -79,7 +74,7 @@ def updateTadbirkor(request, pk):
         form = TadbirkorForm(request.POST, instance=tadbirkor)
         if form.is_valid():
             form.save()
-            return redirect('tadbirkor')
+            return redirect('create_order')
 
     context = {'form': form}
     return render(request, 'forms/tadbirkor_form.html', context)
@@ -88,13 +83,9 @@ def updateTadbirkor(request, pk):
 
 @login_required(login_url='login')
 def deleteTadbirkor(request, pk):
-    tadbirkor = Tadbirkor.objects.get(id=pk)
-    if request.method == 'POST':
-        tadbirkor.delete()
-        return redirect('tadbirkor')
-
-    context = {'tadbirkor':tadbirkor}
-    return render(request, 'forms/tadbirkor_delete.html', context)
+    tadbirkor = get_object_or_404(Tadbirkor, id=pk)
+    tadbirkor.delete()
+    return redirect('tadbirkor')
 
 
 
@@ -104,45 +95,57 @@ def deleteTadbirkor(request, pk):
 
 @login_required(login_url='login')
 def createJoy(request):
-    form = JoyForm()
 
-    if request.method == 'POST':
+    form = JoyForm()
+    if request.method == 'POST':    
         
-        form = JoyForm(request.POST)
+        form = JoyForm(request.POST, request.FILES)
+
         if form.is_valid():
             joy = form.save(commit=False)
             joy.owner = request.user
             joy.save()
-            return redirect('places')
+            messages.success(request, 'Sizning joyingiz yaratildi')
+            return redirect('user_page', pk=request.user.id)
+        else:
+            messages.error(request, 'Sizda hatolik yuz berdi')
+            return redirect('user_page', pk=request.user.id)
+
 
     context = {'form': form}
-    return render(request, 'forms/joy_form.html', context)
+    return render(request, 'forms/create_joy.html', context)
 
 
 @login_required(login_url='login')
 def updateJoy(request, pk):
-    joy = Place.objects.get(id=pk)
+    joy = get_object_or_404(Place, id=pk)
     form = JoyForm(instance=joy)
 
     if request.method == 'POST':
+        joy.image = request.FILES["image"]
+        joy.save()
         form = JoyForm(request.POST, instance=joy)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('place'))
+            return redirect('user_page', pk=request.user.id)
 
-    context = {'form': form}
-    return render(request, 'forms/joy_form.html', context)
+    context = {'form': form, 'joy': joy}
+    return render(request, 'forms/update_joy.html', context)
 
 
 @login_required(login_url='login')
 def deleteJoy(request, pk):
-    joy = Place.objects.get(id=pk)
-    if request.method == 'POST':
-        joy.delete()
-        return redirect('/')
+    joy = get_object_or_404(Place, id=pk)
+    joy.delete()
+    return redirect('user_page', pk=request.user.id)
 
-    context = {'joy':joy}
-    return render(request, 'forms/joy_delete.html', context)
+
+
+
+
+
+
+
 
 
 
@@ -156,8 +159,11 @@ def createOrder(request):
 
     if request.method == 'POST':
         form = OrderForm(request.POST)
+        
         if form.is_valid():
             form.save()
+            
+            messages.success(request, 'Buyurtma amalga ochirildi.')
             return redirect('orders')
 
     context = {'form': form}
@@ -166,13 +172,14 @@ def createOrder(request):
 
 @login_required(login_url='login')
 def updateOrder(request, pk):
-    order = Order.objects.get(id=pk)
+    order = get_object_or_404(Order, id=pk)
     form = OrderForm(instance=order)
 
     if request.method == 'POST':
         form = OrderForm(request.POST, instance=order)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Buyurtma tahrirlandi.')
             return redirect('orders')
 
     context = {'form': form}
@@ -181,11 +188,6 @@ def updateOrder(request, pk):
 
 @login_required(login_url='login')
 def deleteOrder(request, pk):
-    order = Order.objects.get(id=pk)
-    if request.method == 'POST':
-        order.delete()
-        return redirect('orders')
-
-    context = {'order':order}
-    return render(request, 'forms/delete_order.html', context)
-
+    order = get_object_or_404(Order, id=pk)
+    order.delete()
+    return redirect('orders')

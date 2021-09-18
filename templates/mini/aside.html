@@ -4,10 +4,10 @@
             <ul class="nav navbar-nav">
                 {% if request.user.is_staff %}
                 <li class="nav-item">
-                    <a href="{% url 'home' %}"><i class="menu-icon fa fa-laptop"></i>Dashboard </a>
+                    <a href="{% url 'home' %}"><i class="menu-icon fa fa-laptop"></i>Asosiy </a>
                 </li>
                        
-                <li class="nav-item"><a href="{% url 'place' %}"> <i class="menu-icon fa fa-users"></i>Joy egalari</a></li>
+                <li class="nav-item"><a href="{% url 'owners' %}"> <i class="menu-icon fa fa-users"></i>Joy egalari</a></li>
                 
                 <li class="nav-item"><a href="{% url 'joylar' %}"><span> </span> <i class="menu-icon fa fa-plus-square-o"></i>Joylar</a></li>   
                 
@@ -15,7 +15,7 @@
                 <li class="nav-item"><a href="{% url 'orders' %}"> <i class="menu-icon fa fa-handshake-o"></i>Buyurtmalar</a></li>   
                 
                 {% else %}
-                <li class="nav-item"><a href="#"> <i class="menu-icon fa fa-tasks"></i>Joy egalari</a></li>
+                <li class="nav-item"><a href="{% url 'user_page' request.user.id  %}"> <i class="menu-icon fa fa-tasks"></i>User-page</a></li>
                 {% endif %}
             </ul>
         </div><!-- /.navbar-collapse -->

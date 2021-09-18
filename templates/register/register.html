@@ -53,6 +53,10 @@
 						</div>
 
                         <div class="form-group">
+							{{ form.phone }}
+						</div>
+
+                        <div class="form-group">
 							{{ form.password1 }}
 						</div>
                         
@@ -84,8 +88,9 @@
 
 var form_fields = document.getElementsByTagName('input')
 form_fields[1].placeholder='Ismingizni kiriting...';
-form_fields[2].placeholder='Parolingizni kiriting...';
-form_fields[3].placeholder='Parolingizni qayta kiriting...';
+form_fields[2].placeholder='Telefoningizni kiriting...';
+form_fields[3].placeholder='Parolingizni kiriting...';
+form_fields[4].placeholder='Parolingizni qayta kiriting...';
 
 
 for (var field in form_fields){	

@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = 'banner.Place_owner'
 
 # Application definition
 
@@ -62,7 +63,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [str(BASE_DIR.joinpath('templates'))],
+        'DIRS': [BASE_DIR/'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -111,7 +112,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+
+LANGUAGE_CODE = 'uz-UZ'
 
 TIME_ZONE = 'UTC'
 
@@ -125,17 +127,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-import os
+
 
 STATIC_URL = 'staticfiles/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'collected_static')
+STATICFILES_DIRS = [BASE_DIR, 'staticfiles']
 
 MEDIA_URL = '/mediafiles/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'staticfiles/mediafiles')
+MEDIA_ROOT = BASE_DIR / 'staticfiles/mediafiles'
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'staticfiles')
-]
+
 
 
 # Default primary key field type

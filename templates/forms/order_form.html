@@ -20,7 +20,9 @@
                         
                         
                         <div class="form-group has-success">
+
                             {{ form.tadbirkor.label }}
+                            <a class="btn btn-sm btn-outline-info ml-8 mb-1" href="{% url 'create_tadbirkor' %}">Yangi qo'shish</a>
                             {{ form.tadbirkor }}
                         </div>
 
@@ -42,6 +44,10 @@
                             {{ form.status }}
                         </div>
                         <div>
+
+                            {% for message in messages %}
+                            <p>{{ message }}</p>
+                            {% endfor %}
                             <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
                                 
                                 <span id="payment-button-amount">Ro'yhatdan o'tkazish</span>

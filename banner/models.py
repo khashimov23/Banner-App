@@ -1,16 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+from django.contrib.auth.models import AbstractUser
 
 
+class Place_owner(AbstractUser):
+    phone = models.CharField(verbose_name='Telefon', max_length=13, null=True, unique=False)
 
-
-class Place_owner(models.Model):
-    name = models.CharField(max_length=200)
-    phone = models.CharField(max_length=13, null=True)
-
-    def __str__(self) -> str:
-        return self.name
 
 
 class Place(models.Model):
@@ -25,13 +21,14 @@ class Place(models.Model):
     image = models.ImageField(upload_to='images', null=True)
     image2 = models.ImageField(upload_to='images', null=True, blank=True)
     image3 = models.ImageField(upload_to='images', null=True, blank=True)
-    busy = models.CharField(max_length=200, default="Bo'sh", null=True, choices=BUSY)
+    busy = models.CharField(max_length=200, default="Bo'sh", choices=BUSY)
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
-    current_post = models.ForeignKey('Tadbirkor', null=True, blank=True ,on_delete=models.SET_NULL)
+    boglangan_tadbirkor = models.CharField(max_length=150, null=True, blank=True)
 
     def __str__(self) -> str:
-        return self.address
+        return f"{self.owner.username}ning - {self.address}dagi joyi"
+
 
 
 
@@ -40,21 +37,9 @@ class Tadbirkor(models.Model):
     phone = models.CharField(max_length=13, null=True)
     info = models.CharField(max_length=200)
 
+
     def __str__(self) -> str:
         return self.name
-
-
-
-
-class Place_image(models.Model):
-    image = models.ImageField(upload_to='images')
-    place = models.ForeignKey(Place, on_delete=models.CASCADE, related_name='place_images')
-    time_created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-
-
-    class Meta:
-        ordering = ['time_created'] 
-
 
 
 
@@ -70,9 +55,9 @@ class Order(models.Model):
     end_date = models.DateField(null=True)
     status = models.CharField(max_length=100, default='Active', null=True, choices=STATUS)
 
-    def __str__(self) -> str:
-        return self.tadbirkor.name
 
+    def __str__(self) -> str:
+        return f"{self.tadbirkor.name} - {self.place.address}"
 
 
     

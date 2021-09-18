@@ -15,11 +15,7 @@
             <div class="card">
            
             <div class="card-body">
-                <h4 class="box-title">Joy egalari </h4>
-                <hr>
-                <div style="width: 50%;">
-                    <a class="btn btn-sm btn-primary btn-block"  href="{% url 'create_owner' %}">Yangi Joy egasini qo'shish</a>
-                </div>
+                <h4 class="box-title">Joy Egalari </h4>
             </div>
                 <div class="table-stats order-table ov-h">
                     <table class="table">
@@ -31,12 +27,12 @@
 
                             {% for i in egasi %}
                             <tr>   
-                                <td><span >{{i.name}}</span> </td>
+                                <td><span >{{i.username}}</span> </td>
                                 <td><span >{{i.phone}}</span></td>
                                 <td><span >{{i.places_count}}</span></td>
 
                                
-                                <td><a class="btn btn-sm btn-info" href="{% url 'place_detail' i.id %}">Batafsil</a></td>
+                                <td><a class="btn btn-sm btn-info" href="{% url 'owner_detail' i.id %}">Batafsil</a></td>
                             
                             </tr>
                             {% endfor %}

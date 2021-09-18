@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+{% include 'mini/navbar.html' %}
+      
+
+
+<br>
+<div class="row">
+    <div class="col-md">
+        <div class="card">
+        <div class="card-body">
+            <h5>Joy egasi: {{ egasi.username }}</h5>
+            <hr>
+            <a class="btn btn-outline-info  btn-sm btn-block" href="{% url 'update_owner' egasi.id %}">O'zgartirish</a>
+            
+            <button type="button" class="btn btn-outline-danger  btn-sm btn-block" data-toggle="modal" data-target="#place-delete"> O'chirish </button>
+
+                <div class="modal fade" id="place-delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" style="text-transform: none;" id="exampleModalLabel">({{egasi}})ning Accountini o'chirmoqchimisiz? <br> E'tibor bering! O'chirsangiz, ma'lumotlaringizni qayta tiklay olmaysiz!</h5>
+                    </div>
+                    <div class="modal-body">
+                            <a type="button" class="btn btn-sm btn-info" data-dismiss="modal" href="">Bekor qilish</a>
+                            <a type="button" class="btn btn-sm btn-danger" href="{% url 'delete_owner' egasi.id %}">O'chirish</a>                                     
+                    </div>
+                    </div>
+                </div>
+                </div>
+          
+                        
+        </div>
+    </div>
+    </div>
+
+    <div class="col-md">
+        <div class="card">
+            <div class="card-body">
+                <h5>Ma'lumotlarim</h5>
+                <hr>
+                <p>Ism: {{ egasi.username }}</p>
+                <p>Telefon: {{ egasi.phone }}</p>
+            </div>
+        </div>
+       
+    </div>
+
+    <div class="col-md">
+        <div class="card">
+
+        
+        <div class="card-body">
+            <h5>Joylarimning soni</h5>
+            <hr>
+            <h1 style="text-align: center; padding: 10px;">{{places_count}}</h1>            
+        </div>
+        </div>
+    </div>
+    
+</div>
+
+<br> 
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+       
+        <div class="card-body" style="display: flex; justify-content: space-between;">
+            <h4 class="box-title">Bo'sh joylarim</h4>
+            <a class="btn btn-sm btn-info" href="{% url 'create_joy' %}">Joy qo'shish</a>
+        </div>
+            <div class="table-stats order-table ov-h">
+                <table class="table">
+                    <tr>
+                        <th>Manzili</th>
+                        <th>Narxi</th>
+                        <th>Joy holati</th>
+                        <th>O'zgartirish</th>
+                        <th>O'chirish</th>
+                        <th>Ko'rish</th>
+
+                        {% for free in free_places %}
+                        <tr style="text-transform: none;">   
+                            <td><span >{{free.address}}</span> </td>
+                            <td><span >{{free.price}}</span></td>
+                            <td><span class="badge" style="background-color: green;">{{free.busy}}</span></td>
+                            <td><a class="btn btn-sm btn-info" href="{% url 'update_joy' free.id %}">O'zgartirish</a></td>
+                            <td>
+                                <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#owner-delete"> O'chirish </button>
+                                  
+                                  <div class="modal fade" id="owner-delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h5 class="modal-title" style="text-transform: none;" id="exampleModalLabel">({{free}}) ni o'chirmoqchimisiz?</h5>
+                                        </div>
+                                        <div class="modal-body">
+                                                <a type="button" class="btn btn-sm btn-secondary" data-dismiss="modal" href="">Bekor qilish</a>
+                                                <a type="button" class="btn btn-sm btn-danger" href="{% url 'delete_joy' free.id %}">O'chirish</a>                                     
+                                        </div>
+                                    </div>
+                                    </div>
+                                  </div>
+                            </td>  
+                            
+                            <td><a class="btn btn-sm btn-info" href="">Batafsil</a></td>  
+                        
+                        </tr>
+                        {% endfor %}
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-md-6">
+        <div class="card">
+       
+        <div class="card-body">
+            <h4 class="box-title">Band joylarim</h4>
+           
+        </div>
+            <div class="table-stats order-table ov-h">
+                <table class="table">
+                    <tr>
+                        <th>Manzili</th>
+                        <th>Narxi</th>
+                        <th>Joy holati</th>
+                        <th>O'zgartirish</th>
+                        <th>O'chirish</th>
+                        <th>Ko'rish</th>
+
+                        {% for busy in busy_places %}
+                        <tr style="text-transform: none;">   
+                            <td><span >{{busy.address}}</span> </td>
+                            <td><span >{{busy.price}}</span></td>
+                            <td><span class="badge" style="background-color: crimson;">{{busy.busy}}</span></td>
+                            <td><a class="btn btn-sm btn-info" href="{% url 'update_joy' busy.id %}">O'zgartirish</a></td>
+                            <td>
+                                <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#owner-delete"> O'chirish </button>
+                                  
+                                  <div class="modal fade" id="owner-delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h5 class="modal-title" style="text-transform: none;" id="exampleModalLabel">({{busy}}) ni o'chirmoqchimisiz?</h5>
+                                        </div>
+                                        <div class="modal-body">
+                                                <a type="button" class="btn btn-sm btn-secondary" data-dismiss="modal" href="">Bekor qilish</a>
+                                                <a type="button" class="btn btn-sm btn-danger" href="{% url 'delete_joy' busy.id %}">O'chirish</a>                                     
+                                        </div>
+                                    </div>
+                                    </div>
+                                  </div>
+                            </td>  
+                            
+                            <td><a class="btn btn-sm btn-info" href="">Batafsil</a></td>  
+                        
+                        </tr>
+                        {% endfor %}
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+{% endblock content %}

@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+{% include 'mini/navbar.html' %}
+      
+
+
+<div class="col-lg-6">
+    <div class="card">
+        <div class="card-body">
+            <div id="pay-invoice">
+                <div class="card-body">
+                    <div class="card-title">
+                        <h3 class="text-center">Joyni ro'yhatdan o'tkazish</h3>
+                    </div>
+                    <hr>
+                    <style>
+                        .image {
+                            width: fit-content;
+                        }
+                    </style>
+                    <form action="" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                       
+
+                        <div class="form-group has-success">
+                            {{ form.address.label }}
+                            {{ form.address }}
+                        </div>
+
+                        <div class="form-group has-success">
+                            {{ form.price.label }}
+                            {{ form.price }}
+                        </div>
+
+                        <div class="form-group has-success">
+                            {{ form.description.label }}
+                            {{ form.description }}
+                        </div>
+
+                        <div class="form-group has-success image" >
+                            {{ form.image.label }}
+                            {{ form.image }}
+                        </div>
+                        <div class="form-group has-success image">
+                            {{ form.image2.label }}
+                            {{ form.image2 }}
+                        </div>
+                        <div class="form-group has-success image">
+                            {{ form.image3.label }}
+                            {{ form.image3 }}
+                        </div>
+                        
+                        
+                        <br> 
+                        <h6 class="text-center text-danger">Sizning joyingiz hech kim bilan bog'lanmagan bo'lsa quyidagilarni bo'sh qoldiring!</h6>
+                        <br>
+                        <div class="form-group has-success">
+                            {{ form.busy.label }}
+                            {{ form.busy }}
+                        </div>
+                        <div class="form-group has-success">
+                            {{ form.start_date.label }}
+                            {{ form.start_date }}
+                        </div>
+
+                        <div class="form-group has-success">
+                            {{ form.end_date.label }}
+                            {{ form.end_date }}
+                        </div>
+
+                        <div class="form-group has-success">
+                            {{ form.boglangan_tadbirkor.label }}
+                            {{ form.boglangan_tadbirkor }}
+                        </div>
+                        <div>
+                            {{form.errors}}
+                            {% for message in messages %}
+                            <p>{{ message }}</p>
+                            {% endfor %}
+
+                            <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
+                                
+                            <span id="payment-button-amount">Ro'yhatdan o'tkazish</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div> <!-- .card -->
+
+</div><!--/.col-->
+
+<script>
+var form_fields = document.getElementsByTagName('input')
+
+		for (var field in form_fields){	
+			form_fields[field].className += ' form-control'
+		}
+
+</script>
+{% endblock content %}

@@ -11,12 +11,30 @@
                 <div class="card-body">
                     <div class="stat-widget-five">
                         <div class="stat-icon dib flat-color-4">
-                            <i class="pe-7s-cash"></i>
+                            <i class="pe-7s-cash text-info"></i>
                         </div>
                         <div class="stat-content">
                             <div class="text-left dib">
-                                <div class="stat-text"><span class="count">{{orders_count}}</span></div>
-                                <div class="stat-heading">Amaldagi Buyurtmalar soni</div>
+                                <div class="stat-text"><span class="count">{{now_count}}</span></div>
+                                <div class="stat-heading">Amaldagi Buyurtmalar </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <div class="stat-widget-five">
+                        <div class="stat-icon dib flat-color-4">
+                            <i class="pe-7s-check text-danger"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="text-left dib">
+                                <div class="stat-text"><span class="count">{{history_count}}</span></div>
+                                <div class="stat-heading">Vaqti yakunlangan buyurtmalar </div>
                             </div>
                         </div>
                     </div>
@@ -24,29 +42,19 @@
             </div>
         </div>
         
+        
       </div>
 
-<br>
-<div class="row">
-    <div class="col">
-        <div class="card ">
-            <div class="card-body">
-
-
-            </div>
-        </div>
-    </div>
-</div>
 
 
      
 <br>
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-6">
         <div class="card">
        
             <div class="card-body">
-                <h4 class="box-title">Amaldagi Buyurtmalar</h4>
+                <h4 class="box-title">Amaldagi buyurtmalar</h4>
                 <hr>
                 <div style="width: 50%;">
                     <a class="btn btn-sm btn-primary btn-block" href="{% url 'create_order' %}">Buyurtma yaratish</a>
@@ -64,14 +72,89 @@
                     <th>O'chirish</th>
                 </tr>
 
-                {% for i in orders %}
+                {% for i in current_orders %}
                 <tr>
                     <td>{{ i.tadbirkor.name }}</td>
                     <td>{{ i.place.address }}</td>
                     <td>{{ i.start_date }}</td>
                     <td>{{ i.end_date }}</td>
                     <td><a class="btn btn-sm btn-info" href="{% url 'update_order' i.id %}">O'zgartirish</a></td>
-                    <td><a class="btn btn-sm btn-danger" href="{% url 'delete_order' i.id %}">O'chirish</a></td>    
+                    <td>
+                        <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#order-delete"> O'chirish </button>
+                          
+
+                          <!-- Modal -->
+                          <div class="modal fade" id="order-delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" style="text-transform: none;" id="exampleModalLabel">({{i}})dagi buyurtmasini o'chirmoqchimisiz?</h5>
+                                </div>
+                                <div class="modal-body">
+                                        <a type="button" class="btn btn-sm btn-secondary" data-dismiss="modal" href="{% url 'orders' %}">Bekor qilish</a>
+                                        <a type="button" class="btn btn-sm btn-danger" href="{% url 'delete_order' i.id %}">O'chirish</a>                                     
+                                </div>
+                            </div>
+                          </div>
+                          </div>
+                    </td>  
+                    
+                </tr>
+                {% endfor %}
+                    
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <div class="col-md-6">
+        <div class="card">
+       
+            <div class="card-body">
+                <h4 class="box-title">Vaqti yakunlangan buyurtmalar</h4>
+                
+            </div>
+                <div class="table-stats order-table ov-h">
+                    <table class="table">
+                <tr>
+                    <th>Tadbirkor</th>
+                    <th>Joy</th>
+                    <th>Boshlanish sanasi</th>
+                    <th>Tugash sanasi</th>
+                    <th>O'zgartirish</th>
+                    <th>O'chirish</th>
+                </tr>
+
+                {% for i in history %}
+                <tr>
+                    <td>{{ i.tadbirkor.name }}</td>
+                    <td>{{ i.place.address }}</td>
+                    <td>{{ i.start_date }}</td>
+                    <td>{{ i.end_date }}</td>
+                    <td><a class="btn btn-sm btn-info" href="{% url 'update_order' i.id %}">O'zgartirish</a></td>
+                    <td>
+                        <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#order-delete"> O'chirish </button>
+                          
+
+                          <!-- Modal -->
+                          <div class="modal fade" id="order-delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" style="text-transform: none;" id="exampleModalLabel">({{i}}) ning buyurtmasini o'chirmoqchimisiz?</h5>
+                                </div>
+                                <div class="modal-body">
+                                        <a type="button" class="btn btn-sm btn-secondary" data-dismiss="modal" href="{% url 'orders' %}">Bekor qilish</a>
+                                        <a type="button" class="btn btn-sm btn-danger" href="{% url 'delete_order' i.id %}">O'chirish</a>                                     
+                                </div>
+                            </div>
+                          </div>
+                          </div>
+                    </td>  
+                    
                 </tr>
                 {% endfor %}
                     

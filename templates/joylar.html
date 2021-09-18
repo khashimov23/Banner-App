@@ -78,6 +78,7 @@
             <div class="table-stats order-table ov-h">
                 <table class="table">
                     <tr>
+                        <th>Joy egasi</th>
                         <th>Manzili</th>
                         <th>Narxi</th>
                         <th>Joy holati</th>
@@ -85,12 +86,11 @@
 
                         {% for free in free_places %}
                         <tr>   
+                            <td><span> {{free.owner}}</span></td>
                             <td><span >{{free.address}}</span> </td>
                             <td><span >{{free.price}}</span></td>
-                            <td><span class="badge" style="background-color: #F6D167;">{{free.busy}}</span></td>
-
-                            <td><a class="btn btn-sm btn-info" href="">Batafsil</a></td>  
-                        
+                            <td><span class="badge" style="background-color: green;">{{free.busy}}</span></td>
+                            <td><a class="btn btn-sm btn-info" href="{% url 'joy_detail' free.id %}">Batafsil</a></td>  
                         </tr>
                         {% endfor %}
                     </tr>
@@ -109,6 +109,7 @@
             <div class="table-stats order-table ov-h">
                 <table class="table">
                     <tr>
+                        <th>Joy egasi</th>
                         <th>Manzili</th>
                         <th>Narxi</th>
                         <th>Joy holati</th>
@@ -116,10 +117,11 @@
 
                         {% for busy in busy_places %}
                         <tr>   
+                            <td><span> {{busy.owner}}</span></td>
                             <td><span >{{busy.address}}</span> </td>
                             <td><span >{{busy.price}}</span></td>
-                            <td><span class="badge " style="background-color: #3C5186;">{{busy.busy}}</span></td>
-                            <td><a class="btn btn-sm btn-info" href="">Batafsil</a></td>  
+                            <td><span class="badge " style="background-color: crimson;">{{busy.busy}}</span></td>
+                            <td><a class="btn btn-sm btn-info" href="{% url 'joy_detail' busy.id %}">Batafsil</a></td>  
                         
                         </tr>
                         {% endfor %}
