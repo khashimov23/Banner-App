@@ -1,4 +1,5 @@
 from django import forms
+from django.http.response import HttpResponse
 from banner.models import Order, Place, Place_owner, Tadbirkor
 from django.shortcuts import render, redirect, get_object_or_404
 
@@ -27,18 +28,20 @@ def createOwner(request):
 
 @login_required(login_url='login')
 def updateOwner(request, pk):
-    egasi = Place_owner.objects.get(id=pk)
-    form = OwnerForm(instance=egasi)
+    if request.user.id == pk:
+        egasi = Place_owner.objects.get(id=pk)
+        form = OwnerForm(instance=egasi)
 
-    if request.method == 'POST':
-        form = OwnerForm(request.POST, instance=egasi)
-        if form.is_valid():
-            form.save()
-            return redirect('/')
+        if request.method == 'POST':
+            form = OwnerForm(request.POST, instance=egasi)
+            if form.is_valid():
+                form.save()
+                return redirect('/')
 
-    context = {'form': form}
-    return render(request, 'forms/owner_form.html', context)
-
+        context = {'form': form}
+        return render(request, 'forms/owner_form.html', context)
+    else:
+        return HttpResponse("Sizga bu sahifaga kirish mumkin emas!")
 
 
 @login_required(login_url='login')
@@ -118,19 +121,25 @@ def createJoy(request):
 
 @login_required(login_url='login')
 def updateJoy(request, pk):
-    joy = get_object_or_404(Place, id=pk)
-    form = JoyForm(instance=joy)
+    joylar = Place.objects.filter(owner=request.user)
+    joy = Place.objects.get(id=pk)
 
-    if request.method == 'POST':
-        joy.image = request.FILES["image"]
-        joy.save()
-        form = JoyForm(request.POST, instance=joy)
-        if form.is_valid():
-            form.save()
-            return redirect('user_page', pk=request.user.id)
+    if joylar.filter(id=pk).count()>0:
 
-    context = {'form': form, 'joy': joy}
-    return render(request, 'forms/update_joy.html', context)
+        form = JoyForm(instance=joy)
+
+        if request.method == 'POST':
+            joy.image = request.FILES["image"]
+            joy.save()
+            form = JoyForm(request.POST, instance=joy)
+            if form.is_valid():
+                form.save()
+                return redirect('user_page', pk=request.user.id)
+
+        context = {'form': form, 'joy': joy}
+        return render(request, 'forms/update_joy.html', context)
+    else:
+        return HttpResponse("Sizga bu sahifaga kirish mumkin emas!")
 
 
 @login_required(login_url='login')

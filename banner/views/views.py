@@ -9,18 +9,20 @@ from django.contrib.auth.models import Group
 from banner.decorators import unauthenticated_user, allowed_users, admin_only
 from datetime import date
 
+
 def change_posts_status():
-    Place.objects.filter(busy='Band', end_date__lt=date.today()).update(busy="Bo'sh")
+    Place.objects.filter(
+        busy='Band', end_date__lt=date.today()).update(busy="Bo'sh")
 
 
 def change_order_status():
-    Order.objects.filter(status='Active', end_date__lt=date.today()).update(status='NotActive')
-
+    Order.objects.filter(status='Active', end_date__lt=date.today()).update(
+        status='NotActive')
 
 
 @unauthenticated_user
 def registerPage(request):
-    form = CreateUserForm()                        
+    form = CreateUserForm()
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
         if form.is_valid():
@@ -31,11 +33,12 @@ def registerPage(request):
             group = Group.objects.get(name='owner')
             user.groups.add(group)
 
-            messages.success(request, f'Yangi hisob {username} uchun yaratildi')
+            messages.success(
+                request, f'Yangi hisob {username} uchun yaratildi')
 
             return redirect('login')
 
-    context = {'form':form}
+    context = {'form': form}
     return render(request, 'register/register.html', context)
 
 
@@ -54,7 +57,7 @@ def loginPage(request):
                 group = request.user.groups.all()[0].name
 
             if group == 'owner':
-                return redirect('user_page', pk=request.user.id)
+                return redirect('user_page')
 
             elif group == 'admin':
                 return redirect('home')
@@ -71,9 +74,6 @@ def logOutUser(request):
     return redirect('login')
 
 
-
-
-
 @login_required(login_url='login')
 @admin_only
 def home(request):
@@ -83,17 +83,16 @@ def home(request):
     active = orders.filter(status='Active')
     egasi = Place_owner.objects.filter(is_staff=False)
 
-    places = Place.objects.all()
 
     egalari = []
     for eg in egasi:
         places_count = eg.place_set.all().count()
-        dt = {  "id":eg.id,
-                "username":eg.username,
-                "phone":eg.phone,
-                "places_count":places_count }
+        dt = {"id": eg.id,
+              "username": eg.username,
+              "phone": eg.phone,
+              "places_count": places_count}
         egalari.append(dt)
-   
+
     places = Place.objects.all()
     free_places = places.filter(busy="Bo'sh").count()
     busy_places = places.filter(busy="Band").count()
@@ -131,15 +130,13 @@ def order(request):
     now_count = current_orders.count()
     history_count = history.count()
 
-
-    context = {'orders': orders, 
-                'now_count': now_count,
-                'history_count': history_count,
-                'history': history,
-                'current_orders': current_orders,
-                }
+    context = {'orders': orders,
+               'now_count': now_count,
+               'history_count': history_count,
+               'history': history,
+               'current_orders': current_orders,
+               }
     return render(request, 'orders.html', context)
-
 
 
 @login_required(login_url='login')
@@ -158,11 +155,10 @@ def tadbirkor_detail(request, pk):
     orders_count = tadbirkor.order_set.all().count()
 
     context = {
-            'tadbirkor': tadbirkor, 
-            'orders': orders,
-            'orders_count': orders_count}
+        'tadbirkor': tadbirkor,
+        'orders': orders,
+        'orders_count': orders_count}
     return render(request, 'tad_detail.html', context)
-
 
 
 @login_required(login_url='login')
@@ -181,10 +177,10 @@ def owners(request):
     for ega in egalari:
         places_count = ega.place_set.all().count()
         dt = {
-            "id":ega.id,
-            "username":ega.username,
-            "phone":ega.phone,
-            "places_count":places_count
+            "id": ega.id,
+            "username": ega.username,
+            "phone": ega.phone,
+            "places_count": places_count
         }
         egasi.append(dt)
 
@@ -199,9 +195,6 @@ def owners(request):
     return render(request, 'owners.html', context)
 
 
-
-
-
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])
 def owner_detail(request, pk):
@@ -211,17 +204,12 @@ def owner_detail(request, pk):
     orders = places.count()
 
     context = {
-        'egasi': egasi, 
-        'orders': orders, 
+        'egasi': egasi,
+        'orders': orders,
         'places': places,
         'places_count': places_count,
     }
     return render(request, 'owner_detail.html', context)
-
-
-
-
-
 
 
 @login_required(login_url='login')
@@ -237,7 +225,6 @@ def joylar(request):
     busy_places_count = places.filter(busy="Band").count()
     total_places_count = places.count()
 
-
     context = {
         'places': places,
         'free_places': free_places,
@@ -250,9 +237,6 @@ def joylar(request):
     return render(request, 'joylar.html', context)
 
 
-
-
-
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])
 def joy_detail(request, pk):
@@ -262,7 +246,6 @@ def joy_detail(request, pk):
 
     place = get_object_or_404(Place, id=pk)
     orders = place.order_set.all()
-
 
     active = orders.filter(status='Active')
     not_active = orders.filter(status='NotActive')
@@ -276,47 +259,58 @@ def joy_detail(request, pk):
     return render(request, 'joy_detail.html', context)
 
 
-
 # User
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['owner', 'admin'])
-def userPage(request, pk):
+def userPage(request):
 
     change_posts_status()
     change_order_status()
 
-    egasi = get_object_or_404(Place_owner, id=pk, is_staff=False)
-    places = egasi.place_set.all()
-    places_count = egasi.place_set.all().count()
-    orders = places.count()
-    
+    places = request.user.place_set.all()
+    places_count = places.count()
+
     free_places = places.filter(busy="Bo'sh")
     busy_places = places.filter(busy="Band")
 
+    free_places_count = free_places.count()
+    busy_places_count = busy_places.count()
 
-    free_places_count = places.filter(busy="Bo'sh").count()
-    busy_places_count = places.filter(busy="Band").count()
-
-    orders = Order.objects.filter(place__owner_id=egasi.id)
-    orders_count = orders.count()
-    active = orders.filter(status='Active')
-    not_active = orders.filter(status='NotActive')
-
-
+    # active = orders.filter(status='Active')
+    # not_active = orders.filter(status='NotActive')
 
     context = {
-    'egasi': egasi,
-    'places': places,
-    'free_places': free_places,
-    'busy_places': busy_places,
-    'places_count': places_count,
-    'free_places_count': free_places_count,
-    'busy_places_count': busy_places_count,
-    'orders_count':orders_count,
-    'active': active,
-    'not_active': not_active
+        # 'place_owner': place_owner,
+        'places': places,
+        'free_places': free_places,
+        'busy_places': busy_places,
+        'places_count': places_count,
+        'free_places_count': free_places_count,
+        'busy_places_count': busy_places_count,
+        # 'orders_count': orders_count,
+        # 'active': active,
+        # 'not_active': not_active
     }
     return render(request, 'user-place.html', context)
 
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
+def joy_detail(request, pk):
 
+    change_posts_status()
+    change_order_status()
+
+    place = get_object_or_404(Place, id=pk)
+    orders = place.order_set.all()
+
+    active = orders.filter(status='Active')
+    not_active = orders.filter(status='NotActive')
+
+    context = {
+        'place': place,
+        'orders': orders,
+        'active': active,
+        'not_active': not_active,
+    }
+    return render(request, 'joy_detail.html', context)

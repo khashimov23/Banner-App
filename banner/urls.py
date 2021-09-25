@@ -4,19 +4,20 @@ from .views import form_views as fv
 
 
 urlpatterns=[
-    path('', views.home, name='home'),
+    path('home/', views.home, name='home'),
 
     path('owners/', views.owners, name='owners'),
-    path('owner/<str:pk>/', views.owner_detail, name='owner_detail'),
+    path('owner/<int:pk>/', views.owner_detail, name='owner_detail'),
     path('tadbirkors/', views.tadbirkor, name='tadbirkor'),
-    path('tadbirkor/<str:pk>/', views.tadbirkor_detail, name='tadbirkor_detail'),
+    path('tadbirkor/<int:pk>/', views.tadbirkor_detail, name='tadbirkor_detail'),
     
     path('orders/', views.order, name='orders'),
     path('joylar/', views.joylar, name='joylar'),
-    path('joy/<str:pk>/', views.joy_detail, name='joy_detail'),
+    path('joy/<int:pk>/', views.joy_detail, name='joy_detail'),
 
     #users
-    path('owner-page/<int:pk>/', views.userPage, name='user_page'),
+    path('', views.userPage, name='user_page'),
+    path('detail/<int:pk>', views.detailPage, name='detail'),
     
     # Register
     path('register/', views.registerPage, name='register'),
@@ -26,12 +27,12 @@ urlpatterns=[
 
     # CRUD
     path('create_order/', fv.createOrder, name='create_order'),
-    path('update_order/<str:pk>/', fv.updateOrder, name='update_order'),
-    path('delete_order/<str:pk>/', fv.deleteOrder, name='delete_order'),
+    path('update_order/<int:pk>/', fv.updateOrder, name='update_order'),
+    path('delete_order/<int:pk>/', fv.deleteOrder, name='delete_order'),
     
     path('create_owner/', fv.createOwner, name='create_owner'),
-    path('update_owner/<str:pk>/', fv.updateOwner, name='update_owner'),
-    path('delete_owner/<str:pk>/', fv.deleteOwner, name='delete_owner'),
+    path('update_owner/<int:pk>/', fv.updateOwner, name='update_owner'),
+    path('delete_owner/<int:pk>/', fv.deleteOwner, name='delete_owner'),
 
     path('create_tadbirkor/', fv.createTadbirkor, name='create_tadbirkor'),
     path('update_tadbirkor/<int:pk>/', fv.updateTadbirkor, name='update_tadbirkor'),

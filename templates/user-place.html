@@ -11,21 +11,22 @@
     <div class="col-md">
         <div class="card">
         <div class="card-body">
-            <h5>Joy egasi: {{ egasi.username }}</h5>
+            <h5>Joy egasi: {{ user.username }}</h5>
             <hr>
-            <a class="btn btn-outline-info  btn-sm btn-block" href="{% url 'update_owner' egasi.id %}">O'zgartirish</a>
             
+            <a class="btn btn-outline-info  btn-sm btn-block" href="{% url 'update_owner' user.id %}">O'zgartirish</a>
             <button type="button" class="btn btn-outline-danger  btn-sm btn-block" data-toggle="modal" data-target="#place-delete"> O'chirish </button>
 
                 <div class="modal fade" id="place-delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" style="text-transform: none;" id="exampleModalLabel">({{egasi}})ning Accountini o'chirmoqchimisiz? <br> E'tibor bering! O'chirsangiz, ma'lumotlaringizni qayta tiklay olmaysiz!</h5>
+                        <h5 class="modal-title" style="text-transform: none;" id="exampleModalLabel">({{user.username}}) Hisobingizni o'chirmoqchimisiz? <br> E'tibor bering! O'chirsangiz, ma'lumotlaringizni qayta tiklay olmaysiz!</h5>
                     </div>
                     <div class="modal-body">
-                            <a type="button" class="btn btn-sm btn-info" data-dismiss="modal" href="">Bekor qilish</a>
-                            <a type="button" class="btn btn-sm btn-danger" href="{% url 'delete_owner' egasi.id %}">O'chirish</a>                                     
+                            <a type="button" class="btn btn-sm btn-info" data-dismiss="modal" href="">Bekor qilish</a>  
+                            
+                            <a type="button" class="btn btn-sm btn-danger" href="{% url 'delete_owner' user.id %}">O'chirish</a>                                  
                     </div>
                     </div>
                 </div>
@@ -41,8 +42,8 @@
             <div class="card-body">
                 <h5>Ma'lumotlarim</h5>
                 <hr>
-                <p>Ism: {{ egasi.username }}</p>
-                <p>Telefon: {{ egasi.phone }}</p>
+                <p>Ism: {{ user.username }}</p>
+                <p>Telefon: {{ user.phone }}</p>
             </div>
         </div>
        
@@ -87,24 +88,28 @@
                             <td><span >{{free.price}}</span></td>
                             <td><span class="badge" style="background-color: green;">{{free.busy}}</span></td>
                             <td><a class="btn btn-sm btn-info" href="{% url 'update_joy' free.id %}">O'zgartirish</a></td>
+
                             <td>
-                                <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#owner-delete"> O'chirish </button>
-                                  
-                                  <div class="modal fade" id="owner-delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                      <div class="modal-content">
-                                        <div class="modal-header">
-                                          <h5 class="modal-title" style="text-transform: none;" id="exampleModalLabel">({{free}}) ni o'chirmoqchimisiz?</h5>
-                                        </div>
-                                        <div class="modal-body">
+                                <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="{{ free.id }}"> O'chirish </button>
+                                <div class="modal fade" id="{{ free.id }}" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel" aria-hidden="true">
+
+                                    <div class="modal-dialog modal-sm" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+
+                                            <h5 class="modal-title" style="text-transform: none;" >({{free}}) ni o'chirmoqchimisiz?</h5>
+                                               
+                                            </div>
+                                            <div class="modal-body">
                                                 <a type="button" class="btn btn-sm btn-secondary" data-dismiss="modal" href="">Bekor qilish</a>
                                                 <a type="button" class="btn btn-sm btn-danger" href="{% url 'delete_joy' free.id %}">O'chirish</a>                                     
+                                            </div>
+                                        
                                         </div>
                                     </div>
-                                    </div>
-                                  </div>
+                                </div>
                             </td>  
-                            
+   
                             <td><a class="btn btn-sm btn-info" href="">Batafsil</a></td>  
                         
                         </tr>
@@ -140,9 +145,9 @@
                             <td><span class="badge" style="background-color: crimson;">{{busy.busy}}</span></td>
                             <td><a class="btn btn-sm btn-info" href="{% url 'update_joy' busy.id %}">O'zgartirish</a></td>
                             <td>
-                                <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#owner-delete"> O'chirish </button>
+                                <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="{{ busy.id }}"> O'chirish </button>
                                   
-                                  <div class="modal fade" id="owner-delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                  <div class="modal fade" id="{{ busy.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                       <div class="modal-content">
                                         <div class="modal-header">

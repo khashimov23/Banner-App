@@ -14,6 +14,7 @@ def unauthenticated_user(view_func):
 
 
 
+
 def allowed_users(allowed_roles=[]):
     def decorator(viev_func):
         def wrapper_func(request, *args, **kwargs):
@@ -49,5 +50,4 @@ def admin_only(view_func):
             return HttpResponse("Sizga bu sahifani ko'rish uchun ruxsat berilmagan")
 
     return wrapper_func
-
 

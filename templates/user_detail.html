@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+{% include 'mini/navbar.html' %}
+      
+<div class="row">
+<div class="col-md-6 ">
+    
+    <div class="card text-center">
+        <div class="card-body">
+            <h4 class="box-title">{{place.owner}} ning ({{place.address}}) manzildagi joyining umumiy holati</h4>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-body ">
+            
+
+        <div class="table-stats order-table ov-h">
+            <table class="table">
+                <tr>
+                    <th>Manzili</th>
+                    <th>Narxi</th>
+                    <th>Joy holati</th>
+                    <th>O'chirish</th>
+
+                    <tr>   
+                        <td><span >{{place.address}}</span> </td>
+                        <td><span >{{place.price}}</span></td>
+                        {% if place.busy == "Band" %}
+                        <td><span class="badge " style="background-color: crimson;">{{place.busy}}</span></td>
+                        {% else %}
+                        <td><span class="badge" style="background-color: green;">{{place.busy}}</span></td>
+                        {% endif %}
+                        
+                        <td>
+                            <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#joy-delete"> O'chirish </button>
+                              
+                              <!-- Modal -->
+                              <div class="modal fade" id="joy-delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title" style="text-transform: none;" id="exampleModalLabel">({{place}}) ni o'chirmoqchimisiz?</h5>
+                                    </div>
+                                    <div class="modal-body">
+
+                                        <a type="button" class="btn btn-sm btn-secondary" data-dismiss="modal" href="{% url 'joy_detail' place.id %}">Bekor qilish</a>
+                                        <a type="button" class="btn btn-sm btn-danger" href="{% url 'delete_joy' place.id %}">O'chirish</a>   
+                                    
+                                        
+                                    </div>
+                                </div>
+                              </div>
+                              </div>
+                        </td>  
+                        
+                    
+                    </tr>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+    </div>
+
+</div>
+<div class="row">
+    
+<div class="col-md-6">
+    <div class="card ">
+        <div class="card-body ">
+            <h4 class="box-title">Amaldagi buyurtmalar</h4>
+        </div>
+
+        <div class="table-stats order-table ov-h">
+            <table class="table table-sm">
+                <tr>
+                    <th>Tadbirkor</th>
+                    <th>Bog'langan joy</th>
+                    <th>Boshlanish sanasi</th>
+                    <th>Tugash sanasi</th>
+                    <th>O'zgartirish</th>
+                    <th>O'chirish</th>
+                </tr>
+
+                {% for i in active %}
+                <tr>
+                    <td>{{ i.tadbirkor.name }}</td>
+                    <td>{{ i.place.address }}</td>
+                    <td>{{ i.start_date }}</td>
+                    <td>{{ i.end_date }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            </div>
+
+        
+    </div>
+</div>
+
+
+
+<div class="col-md-6">
+    <div class="card ">
+        <div class="card-body ">
+            <h4 class="box-title"> Vaqti o'tgan buyurtmalari</h4>
+        </div>
+
+        <div class="table-stats order-table ov-h">
+            <table class="table table-sm">
+                <tr>
+                    <th>Tadbirkor</th>
+                    <th>Bog'langan joy</th>
+                    <th>Boshlanish sanasi</th>
+                    <th>Tugash sanasi</th>
+                    <th>O'zgartirish</th>
+                    <th>O'chirish</th>
+                </tr>
+
+                {% for i in not_active %}
+                <tr>
+                    <td>{{ i.tadbirkor.name }}</td>
+                    <td>{{ i.place.address }}</td>
+                    <td>{{ i.start_date }}</td>
+                    <td>{{ i.end_date }}</td>
+                    <td><a class="btn btn-sm btn-info" href="">O'zgartirish</a></td>
+                    <td><a class="btn btn-sm btn-danger" href="">O'chirish</a></td>    
+                </tr>
+                {% endfor %}
+            </table>
+            </div>
+
+        
+    </div>
+</div>
+
+</div>
+
+</div>
+<div class="row">
+    <div class="col-md-6">
+        
+        <div style="width: 100%;">
+            <img src="{{ place.image.url }}" style="height: 300px; width: 100%; object-fit: cover;" class="rounded featured-image-list mt-4" alt="{{place.address}}">
+        </div>
+
+    </div>
+    
+    <div class="col-md-6">
+        {% if place.image2 %}
+        <div style="width: 100%;">
+            <img src="{{ place.image2.url }}" style="height: 300px; width: 100%; object-fit: cover;" class="rounded featured-image-list mt-4" alt="{{place.address}}">
+        </div>
+        {% endif %}
+    </div>
+
+
+    <div class="col-md-12">
+        {% if place.image3 %}
+        <div style="width: 100%;">
+            <img src="{{ place.image3.url }}" style="height: auto; width: 100%; object-fit: cover;" class="rounded featured-image-list mt-4" alt="{{place.address}}">
+        </div>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock content %}
