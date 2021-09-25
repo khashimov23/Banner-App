@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+ {% extends 'base.html' %}
 {% load static %}
 {% block content %}
 
@@ -37,24 +37,21 @@
     </div>
     </div>
 
+    
     <div class="col-md">
-        <div class="card">
-            <div class="card-body">
-                <h5>Ma'lumotlarim</h5>
-                <hr>
-                <p>Ism: {{ user.username }}</p>
-                <p>Telefon: {{ user.phone }}</p>
-            </div>
+        <div class="card">      
+        <div class="card-body">
+            <h5>Amaldagi buyurtmalar soni</h5>
+            <hr>
+            <h1 style="text-align: center; padding: 10px;">{{active_count}}</h1>            
         </div>
-       
+        </div>
     </div>
 
     <div class="col-md">
         <div class="card">
-
-        
         <div class="card-body">
-            <h5>Joylarimning soni</h5>
+            <h5>Barcha joylarim soni</h5>
             <hr>
             <h1 style="text-align: center; padding: 10px;">{{places_count}}</h1>            
         </div>
@@ -78,19 +75,16 @@
                         <th>Manzili</th>
                         <th>Narxi</th>
                         <th>Joy holati</th>
-                        <th>O'zgartirish</th>
-                        <th>O'chirish</th>
-                        <th>Ko'rish</th>
+                        <th>Amallar</th>
 
                         {% for free in free_places %}
                         <tr style="text-transform: none;">   
                             <td><span >{{free.address}}</span> </td>
                             <td><span >{{free.price}}</span></td>
                             <td><span class="badge" style="background-color: green;">{{free.busy}}</span></td>
-                            <td><a class="btn btn-sm btn-info" href="{% url 'update_joy' free.id %}">O'zgartirish</a></td>
-
                             <td>
-                                <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="{{ free.id }}"> O'chirish </button>
+                                <a class="btn btn-sm btn-info" href="{% url 'update_joy' free.id %}"><i class="fa fa-pencil-square-o"></i></a>
+                                <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="{{ free.id }}"> <i class="fa fa-trash-o"></i> </button>
                                 <div class="modal fade" id="{{ free.id }}" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel" aria-hidden="true">
 
                                     <div class="modal-dialog modal-sm" role="document">
@@ -108,9 +102,10 @@
                                         </div>
                                     </div>
                                 </div>
+
+                            <a class="btn btn-sm btn-info" href="{% url 'detail' free.id %}"><i class="fa fa-eye"></i></a>
                             </td>  
-   
-                            <td><a class="btn btn-sm btn-info" href="">Batafsil</a></td>  
+     
                         
                         </tr>
                         {% endfor %}
@@ -162,7 +157,7 @@
                                   </div>
                             </td>  
                             
-                            <td><a class="btn btn-sm btn-info" href="">Batafsil</a></td>  
+                            <td><a class="btn btn-sm btn-info" href="{% url 'detail' busy.id %}">Batafsil</a></td>  
                         
                         </tr>
                         {% endfor %}
@@ -174,6 +169,74 @@
 </div>
 
 
+
+     
+<br>
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+       
+            <div class="card-body">
+                <h4 class="box-title">Amaldagi buyurtmalar</h4>
+                
+            </div>
+                <div class="table-stats order-table ov-h">
+                    <table class="table">
+                <tr>
+                    <th>Tadbirkor</th>
+                    <th>Joy</th>
+                    <th>Boshlanish sanasi</th>
+                    <th>Tugash sanasi</th>
+                </tr>
+
+                {% for i in active %}
+                <tr>
+                    <td>{{ i.tadbirkor.name }}</td>
+                    <td>{{ i.place.address }}</td>
+                    <td>{{ i.start_date }}</td>
+                    <td>{{ i.end_date }}</td>
+                </tr>
+                {% endfor %}
+                    
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <div class="col-md-6">
+        <div class="card">
+       
+            <div class="card-body">
+                <h4 class="box-title">Vaqti yakunlangan buyurtmalar</h4>
+                
+            </div>
+                <div class="table-stats order-table ov-h">
+                    <table class="table">
+                <tr>
+                    <th>Tadbirkor</th>
+                    <th>Joy</th>
+                    <th>Boshlanish sanasi</th>
+                    <th>Tugash sanasi</th>
+                </tr>
+
+                {% for i in history %}
+                <tr>
+                    <td>{{ i.tadbirkor.name }}</td>
+                    <td>{{ i.place.address }}</td>
+                    <td>{{ i.start_date }}</td>
+                    <td>{{ i.end_date }}</td>                    
+                </tr>
+                {% endfor %}
+                    
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
 
 
 

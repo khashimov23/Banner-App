@@ -9,7 +9,7 @@
     
     <div class="card text-center">
         <div class="card-body">
-            <h4 class="box-title">{{place.owner}} ning ({{place.address}}) manzildagi joyining umumiy holati</h4>
+            <h4 class="box-title">{{place.owner.username}} ning ({{place.address}}) manzildagi joyining umumiy holati</h4>
         </div>
     </div>
 </div>
@@ -84,8 +84,6 @@
                     <th>Bog'langan joy</th>
                     <th>Boshlanish sanasi</th>
                     <th>Tugash sanasi</th>
-                    <th>O'zgartirish</th>
-                    <th>O'chirish</th>
                 </tr>
 
                 {% for i in active %}
@@ -118,8 +116,6 @@
                     <th>Bog'langan joy</th>
                     <th>Boshlanish sanasi</th>
                     <th>Tugash sanasi</th>
-                    <th>O'zgartirish</th>
-                    <th>O'chirish</th>
                 </tr>
 
                 {% for i in not_active %}

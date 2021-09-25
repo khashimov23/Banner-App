@@ -41,7 +41,7 @@ def admin_only(view_func):
             group = request.user.groups.all()[0].name
 
         if group == 'owner':
-            return redirect('user_page', pk=request.user.id)
+            return redirect('user_page')
 
         elif group == 'admin':
             return view_func(request, *args, **kwargs)

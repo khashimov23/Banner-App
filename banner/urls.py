@@ -17,7 +17,7 @@ urlpatterns=[
 
     #users
     path('', views.userPage, name='user_page'),
-    path('detail/<int:pk>', views.detailPage, name='detail'),
+    path('detail/<int:pk>/', views.detailPage, name='detail'),
     
     # Register
     path('register/', views.registerPage, name='register'),

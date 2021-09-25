@@ -58,7 +58,6 @@ def loginPage(request):
 
             if group == 'owner':
                 return redirect('user_page')
-
             elif group == 'admin':
                 return redirect('home')
 
@@ -112,9 +111,7 @@ def home(request):
         'total_orders': total_orders,
         'total_owners': total_owners,
         'total_tadbirkor': total_tadbirkor,
-
     }
-
     return render(request, 'dashboard.html', context)
 
 
@@ -217,14 +214,11 @@ def owner_detail(request, pk):
 def joylar(request):
     change_posts_status()
     places = Place.objects.all()
-
     free_places = places.filter(busy="Bo'sh")
     busy_places = places.filter(busy="Band")
-
     free_places_count = places.filter(busy="Bo'sh").count()
     busy_places_count = places.filter(busy="Band").count()
     total_places_count = places.count()
-
     context = {
         'places': places,
         'free_places': free_places,
@@ -243,10 +237,8 @@ def joy_detail(request, pk):
 
     change_posts_status()
     change_order_status()
-
     place = get_object_or_404(Place, id=pk)
     orders = place.order_set.all()
-
     active = orders.filter(status='Active')
     not_active = orders.filter(status='NotActive')
 
@@ -263,10 +255,8 @@ def joy_detail(request, pk):
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['owner', 'admin'])
 def userPage(request):
-
     change_posts_status()
     change_order_status()
-
     places = request.user.place_set.all()
     places_count = places.count()
 
@@ -275,28 +265,30 @@ def userPage(request):
 
     free_places_count = free_places.count()
     busy_places_count = busy_places.count()
+    
+    orders = Order.objects.filter(place__owner = request.user)
 
-    # active = orders.filter(status='Active')
-    # not_active = orders.filter(status='NotActive')
+    active_count = orders.filter(status='Active').count()
+    active = orders.filter(status='Active')
+    history = orders.filter(status='NotActive')
 
     context = {
-        # 'place_owner': place_owner,
         'places': places,
         'free_places': free_places,
         'busy_places': busy_places,
         'places_count': places_count,
         'free_places_count': free_places_count,
         'busy_places_count': busy_places_count,
-        # 'orders_count': orders_count,
-        # 'active': active,
-        # 'not_active': not_active
+        'active':active,
+        'history': history,
+        'active_count': active_count,
     }
     return render(request, 'user-place.html', context)
 
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
-def joy_detail(request, pk):
+@allowed_users(allowed_roles=['owner', 'admin'])
+def detailPage(request, pk):
 
     change_posts_status()
     change_order_status()
@@ -313,4 +305,4 @@ def joy_detail(request, pk):
         'active': active,
         'not_active': not_active,
     }
-    return render(request, 'joy_detail.html', context)
+    return render(request, 'user_detail.html', context)
