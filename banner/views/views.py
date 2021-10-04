@@ -11,13 +11,18 @@ from datetime import date
 
 
 def change_posts_status():
-    Place.objects.filter(
-        busy='Band', end_date__lt=date.today()).update(busy="Bo'sh")
+    Place.objects.filter(busy='Band', end_date__lt=date.today()).update(busy="Bo'sh")
 
 
 def change_order_status():
-    Order.objects.filter(status='Active', end_date__lt=date.today()).update(
-        status='NotActive')
+    Order.objects.filter(status='Active', end_date__lt=date.today()).update(status='NotActive')
+
+def change_history():
+    orders = Order.objects.filter(status='NotActive')
+    for ord in orders:
+        pl = ord.place
+        pl.busy = "Bo'sh"
+        pl.save()
 
 
 @unauthenticated_user
@@ -99,7 +104,6 @@ def home(request):
     total_places = places.count()
     total_orders = orders.count()
     total_owners = egasi.count()
-    total_tadbirkor = Tadbirkor.objects.all().count()
 
     context = {
         'active': active,
@@ -109,8 +113,7 @@ def home(request):
         'busy_places': busy_places,
         'total_places': total_places,
         'total_orders': total_orders,
-        'total_owners': total_owners,
-        'total_tadbirkor': total_tadbirkor,
+        'total_owners': total_owners
     }
     return render(request, 'dashboard.html', context)
 
@@ -118,6 +121,7 @@ def home(request):
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])
 def order(request):
+    change_posts_status()
     change_order_status()
     orders = Order.objects.all()
 
@@ -140,7 +144,7 @@ def order(request):
 @allowed_users(allowed_roles=['admin'])
 def tadbirkor(request):
     tadbirkorlar = Tadbirkor.objects.all()
-    tadbirkorlar_soni = Tadbirkor.objects.all().count()
+    tadbirkorlar_soni = tadbirkorlar.count()
     return render(request, 'tadbirkor.html', {'tadbirkorlar': tadbirkorlar, 'tadbirkorlar_soni': tadbirkorlar_soni})
 
 
@@ -162,6 +166,7 @@ def tadbirkor_detail(request, pk):
 @allowed_users(allowed_roles=['admin'])
 def owners(request):
     change_posts_status()
+    change_order_status()
     places = Place.objects.all()
     free_places = places.filter(busy="Bo'sh").count()
     busy_places = places.filter(busy="Band").count()
@@ -195,14 +200,14 @@ def owners(request):
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])
 def owner_detail(request, pk):
+    change_posts_status()
+    change_order_status()
     egasi = get_object_or_404(Place_owner, id=pk, is_staff=False)
     places = egasi.place_set.all()
-    places_count = egasi.place_set.all().count()
-    orders = places.count()
+    places_count = places.count()
 
     context = {
         'egasi': egasi,
-        'orders': orders,
         'places': places,
         'places_count': places_count,
     }
@@ -213,17 +218,18 @@ def owner_detail(request, pk):
 @allowed_users(allowed_roles=['admin'])
 def joylar(request):
     change_posts_status()
+    change_order_status()
+    change_history()
     places = Place.objects.all()
     free_places = places.filter(busy="Bo'sh")
     busy_places = places.filter(busy="Band")
-    free_places_count = places.filter(busy="Bo'sh").count()
-    busy_places_count = places.filter(busy="Band").count()
+    free_places_count = free_places.count()
+    busy_places_count = busy_places.count()
     total_places_count = places.count()
     context = {
         'places': places,
         'free_places': free_places,
         'busy_places': busy_places,
-
         'free_places_count': free_places_count,
         'busy_places_count': busy_places_count,
         'total_places_count': total_places_count,
@@ -234,10 +240,11 @@ def joylar(request):
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])
 def joy_detail(request, pk):
-
     change_posts_status()
     change_order_status()
+    change_history()
     place = get_object_or_404(Place, id=pk)
+
     orders = place.order_set.all()
     active = orders.filter(status='Active')
     not_active = orders.filter(status='NotActive')
@@ -257,6 +264,7 @@ def joy_detail(request, pk):
 def userPage(request):
     change_posts_status()
     change_order_status()
+    change_history()
     places = request.user.place_set.all()
     places_count = places.count()
 
@@ -292,6 +300,7 @@ def detailPage(request, pk):
 
     change_posts_status()
     change_order_status()
+    change_history()
 
     place = get_object_or_404(Place, id=pk)
     orders = place.order_set.all()

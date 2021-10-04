@@ -29,7 +29,7 @@
                     <th>O'chirish</th>
 
                     <tr>   
-                        <td><span >{{place.address}}</span> </td>
+                        <td><span >{{place.address|truncatechars:9}}</span> </td>
                         <td><span >{{place.price}}</span></td>
                         {% if place.busy == "Band" %}
                         <td><span class="badge " style="background-color: crimson;">{{place.busy}}</span></td>
@@ -38,7 +38,7 @@
                         {% endif %}
                         
                         <td>
-                            <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#joy-delete"> O'chirish </button>
+                            <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#joy-delete"> <i class="fa fa-trash-o"></i> </button>
                               
                               <!-- Modal -->
                               <div class="modal fade" id="joy-delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -84,20 +84,19 @@
                     <th>Bog'langan joy</th>
                     <th>Boshlanish sanasi</th>
                     <th>Tugash sanasi</th>
-                    <th>O'zgartirish</th>
-                    <th>O'chirish</th>
+                    <th>Amallar</th>
                 </tr>
 
                 {% for i in active %}
                 <tr>
                     <td>{{ i.tadbirkor.name }}</td>
-                    <td>{{ i.place.address }}</td>
+                    <td>{{ i.place.address |truncatechars:9}}</td>
                     <td>{{ i.start_date }}</td>
                     <td>{{ i.end_date }}</td>
-                    <td><a class="btn btn-sm btn-info" href="{% url 'update_order' i.id %}">O'zgartirish</a></td>
+                    <td><a class="btn btn-sm btn-info" href="{% url 'update_order' i.id %}"><i class="fa fa-pencil-square-o"></i></a>
+                    
                 
-                    <td>
-                        <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#order-delete"> O'chirish </button>
+                        <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#order-delete"><i class="fa fa-trash-o"></i></button>
                           
 
                           <!-- Modal -->
@@ -105,7 +104,7 @@
                             <div class="modal-dialog">
                               <div class="modal-content">
                                 <div class="modal-header">
-                                  <h5 class="modal-title" style="text-transform: none;" id="exampleModalLabel">({{i}})dagi buyurtmasini o'chirmoqchimisiz?</h5>
+                                  <h5 class="modal-title" style="text-transform: none;" id="exampleModalLabel">({{i}}) ning buyurtmasini o'chirmoqchimisiz?</h5>
                                 </div>
                                 <div class="modal-body">
                                         <a type="button" class="btn btn-sm btn-secondary" data-dismiss="modal" href="{% url 'home' %}">Bekor qilish</a>
@@ -139,18 +138,36 @@
                     <th>Bog'langan joy</th>
                     <th>Boshlanish sanasi</th>
                     <th>Tugash sanasi</th>
-                    <th>O'zgartirish</th>
-                    <th>O'chirish</th>
+                    <th>Amallar</th>
                 </tr>
 
                 {% for i in not_active %}
                 <tr>
                     <td>{{ i.tadbirkor.name }}</td>
-                    <td>{{ i.place.address }}</td>
+                    <td>{{ i.place.address|truncatechars:9 }}</td>
                     <td>{{ i.start_date }}</td>
                     <td>{{ i.end_date }}</td>
-                    <td><a class="btn btn-sm btn-info" href="">O'zgartirish</a></td>
-                    <td><a class="btn btn-sm btn-danger" href="">O'chirish</a></td>    
+                    <td><a class="btn btn-sm btn-info" href="{% url 'update_order' i.id %}"><i class="fa fa-pencil-square-o"></i></a>
+                    
+                
+                        <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#order-delete"><i class="fa fa-trash-o"></i></button>
+                          
+
+                          <!-- Modal -->
+                          <div class="modal fade" id="order-delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" style="text-transform: none;" id="exampleModalLabel">({{i}}) ning buyurtmasini o'chirmoqchimisiz?</h5>
+                                </div>
+                                <div class="modal-body">
+                                        <a type="button" class="btn btn-sm btn-secondary" data-dismiss="modal" href="{% url 'home' %}">Bekor qilish</a>
+                                        <a type="button" class="btn btn-sm btn-danger" href="{% url 'delete_order' i.id %}">O'chirish</a>                                     
+                                </div>
+                            </div>
+                          </div>
+                          </div>
+                    </td>  
                 </tr>
                 {% endfor %}
             </table>

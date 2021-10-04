@@ -15,23 +15,7 @@
             <hr>
             
             <a class="btn btn-outline-info  btn-sm btn-block" href="{% url 'update_owner' user.id %}">O'zgartirish</a>
-            <button type="button" class="btn btn-outline-danger  btn-sm btn-block" data-toggle="modal" data-target="#place-delete"> O'chirish </button>
-
-                <div class="modal fade" id="place-delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" style="text-transform: none;" id="exampleModalLabel">({{user.username}}) Hisobingizni o'chirmoqchimisiz? <br> E'tibor bering! O'chirsangiz, ma'lumotlaringizni qayta tiklay olmaysiz!</h5>
-                    </div>
-                    <div class="modal-body">
-                            <a type="button" class="btn btn-sm btn-info" data-dismiss="modal" href="">Bekor qilish</a>  
-                            
-                            <a type="button" class="btn btn-sm btn-danger" href="{% url 'delete_owner' user.id %}">O'chirish</a>                                  
-                    </div>
-                    </div>
-                </div>
-                </div>
-          
+                    
                         
         </div>
     </div>
@@ -79,7 +63,7 @@
 
                         {% for free in free_places %}
                         <tr style="text-transform: none;">   
-                            <td><span >{{free.address}}</span> </td>
+                            <td><span >{{free.address|truncatechars:9}}</span> </td>
                             <td><span >{{free.price}}</span></td>
                             <td><span class="badge" style="background-color: green;">{{free.busy}}</span></td>
                             <td>
@@ -135,7 +119,7 @@
 
                         {% for busy in busy_places %}
                         <tr style="text-transform: none;">   
-                            <td><span >{{busy.address}}</span> </td>
+                            <td><span >{{busy.address|truncatechars:9}}</span> </td>
                             <td><span >{{busy.price}}</span></td>
                             <td><span class="badge" style="background-color: crimson;">{{busy.busy}}</span></td>
                             <td><a class="btn btn-sm btn-info" href="{% url 'update_joy' busy.id %}">O'zgartirish</a></td>
@@ -192,7 +176,7 @@
                 {% for i in active %}
                 <tr>
                     <td>{{ i.tadbirkor.name }}</td>
-                    <td>{{ i.place.address }}</td>
+                    <td>{{ i.place.address|truncatechars:9 }}</td>
                     <td>{{ i.start_date }}</td>
                     <td>{{ i.end_date }}</td>
                 </tr>
@@ -225,7 +209,7 @@
                 {% for i in history %}
                 <tr>
                     <td>{{ i.tadbirkor.name }}</td>
-                    <td>{{ i.place.address }}</td>
+                    <td>{{ i.place.address|truncatechars:9 }}</td>
                     <td>{{ i.start_date }}</td>
                     <td>{{ i.end_date }}</td>                    
                 </tr>

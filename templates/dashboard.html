@@ -30,7 +30,7 @@
                                     <td><span >{{i.username}}</span> </td>
                                     <td><span >{{i.phone}}</span></td>
                                     <td><span >{{i.places_count}}</span></td>
-                                    <td><a class="btn btn-sm btn-info" href="{% url 'owner_detail' i.id %}">Batafsil</a></td>
+                                    <td><a class="btn btn-sm btn-info" href="{% url 'owner_detail' i.id %}"><i class="fa fa-eye"></i></a></td>
                                 </tr>
                             {% endfor %}
                         </tr>
@@ -53,21 +53,20 @@
                     <th>Joy</th>
                     <th>Boshlanish sanasi</th>
                     <th>Tugash sanasi</th>
-                    <th>O'zgartirish</th>
-                    <th>O'chirish</th>
+                    <th>Amallar</th>
                 </tr>
 
                 {% for i in active %}
 
                 <tr>
                     <td>{{ i.tadbirkor.name }}</td>
-                    <td>{{ i.place.address }}</td>
+                    <td>{{ i.place.address|truncatechars:9 }}</td>
                     <td>{{ i.start_date }}</td>
                     <td>{{ i.end_date }}</td>
-                    <td><a class="btn btn-sm btn-info" href="{% url 'update_order' i.id %}">O'zgartirish</a></td> 
+                    <td><a class="btn btn-sm btn-info" href="{% url 'update_order' i.id %}"><i class="fa fa-pencil-square-o"></i></a>
                     
-                    <td>
-                        <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#order-delete"> O'chirish </button>
+                
+                        <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#order-delete"><i class="fa fa-trash-o"></i></button>
                           
 
                           <!-- Modal -->
@@ -79,12 +78,13 @@
                                 </div>
                                 <div class="modal-body">
                                         <a type="button" class="btn btn-sm btn-secondary" data-dismiss="modal" href="{% url 'home' %}">Bekor qilish</a>
-                                        <a type="button" class="btn btn-sm btn-danger" href="{% url 'delete_order' i.id %}">O'chirish</a>                                     
+                                        <a type="button" class="btn btn-sm btn-danger" href="">O'chirish</a>                                     
                                 </div>
                             </div>
                           </div>
                           </div>
                     </td>  
+                    
                     
                     
                 </tr>

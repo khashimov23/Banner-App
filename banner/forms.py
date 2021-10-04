@@ -77,13 +77,10 @@ class TadbirkorForm(forms.ModelForm):
 class JoyForm(forms.ModelForm):
     class Meta:
         model = Place
-        fields = ['address', 'price', 'description', 'image', 'image2', 'image3', 'busy', 'start_date', 'end_date', 'boglangan_tadbirkor']
+        fields = ['address', 'price', 'description', 'image', 'image2', 'image3']
 
         widgets = {
-            'boglangan_tadbirkor': forms.TextInput(attrs={'class':"form-control", 'placeholder':'Nomini kiriting..'}), 
-            'busy': forms.Select(attrs={'class':"form-control"}), 
-            'start_date': forms.TextInput(attrs={'type': 'date'}),
-            'end_date': forms.TextInput(attrs={'type': 'date'}),
+            
             'image': forms.ClearableFileInput(),
             'image2': forms.ClearableFileInput(),
             'image3': forms.ClearableFileInput(),
@@ -98,11 +95,7 @@ class JoyForm(forms.ModelForm):
             'description': _('Tavsif'),
             'image': _('Birinchi rasm'),
             'image2': _('Ikkinchi rasm'),
-            'image3': _('Uchunchi rasm'),
-            'busy': _('Holati'),
-            'start_date': _('Boshlanish sanasi'),
-            'end_date': _('Tugash sanasi'),
-            'boglangan_tadbirkor': _("Bog'langan tadbirkor"),
+            'image3': _('Uchunchi rasm')
         }
 
 

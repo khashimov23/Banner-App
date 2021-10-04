@@ -87,7 +87,7 @@
                         {% for free in free_places %}
                         <tr>   
                             <td><span> {{free.owner}}</span></td>
-                            <td><span >{{free.address}}</span> </td>
+                            <td><span >{{free.address|truncatechars:9}}</span> </td>
                             <td><span >{{free.price}}</span></td>
                             <td><span class="badge" style="background-color: green;">{{free.busy}}</span></td>
                             <td><a class="btn btn-sm btn-info" href="{% url 'joy_detail' free.id %}">Batafsil</a></td>  
@@ -118,7 +118,7 @@
                         {% for busy in busy_places %}
                         <tr>   
                             <td><span> {{busy.owner}}</span></td>
-                            <td><span >{{busy.address}}</span> </td>
+                            <td><span >{{busy.address|truncatechars:9}}</span> </td>
                             <td><span >{{busy.price}}</span></td>
                             <td><span class="badge " style="background-color: crimson;">{{busy.busy}}</span></td>
                             <td><a class="btn btn-sm btn-info" href="{% url 'joy_detail' busy.id %}">Batafsil</a></td>  

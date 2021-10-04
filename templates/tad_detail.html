@@ -73,11 +73,11 @@
                 {% for i in orders %}
                 <tr>
                     <td>{{ i.tadbirkor.name }}</td>
-                    <td>{{ i.place.address }}</td>
+                    <td>{{ i.place.address|truncatechars:9 }}</td>
                     <td>{{ i.start_date }}</td>
                     <td>{{ i.end_date }}</td>
-                    <td><a class="btn btn-sm btn-info" href="{% url 'update_order' i.id %}">O'zgartirish</a></td>
-                    <td><a class="btn btn-sm btn-danger" href="{% url 'delete_order' i.id %}">O'chirish</a></td>    
+                    <td><a class="btn btn-sm btn-info" href="{% url 'update_order' i.id %}">O'zgartirish</a></td> 
+                    <td><a class="btn btn-sm btn-danger" href="{% url 'delete_order' i.id %}">O'chirish</a></td>   
                 </tr>
                 {% endfor %}
             </table>

@@ -74,22 +74,20 @@
                         <th>Manzili</th>
                         <th>Narxi</th>
                         <th>Joy holati</th>
-                        <th>O'zgartirish</th>
-                        <th>O'chirish</th>
-                        <th>Ko'rish</th>
+                        <th>Amallar</th>
 
                         {% for place in places %}
                         <tr style="text-transform: none;">   
-                            <td><span >{{place.address}}</span> </td>
+                            <td><span >{{place.address|truncatechars:25}}</span> </td>
                             <td><span >{{place.price}}</span></td>
                             {% if place.busy == "Band" %}
                             <td><span class="badge " style="background-color: crimson;">{{place.busy}}</span></td>
                             {% else %}
                             <td><span class="badge" style="background-color: green;">{{place.busy}}</span></td>
                             {% endif %}
-                            <td><a class="btn btn-sm btn-info" href="{% url 'update_joy' place.id %}">O'zgartirish</a></td>
-                            <td>
-                                <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#owner-delete"> O'chirish </button>
+                            <td><a class="btn btn-sm btn-info" href="{% url 'update_joy' place.id %}"><i class="fa fa-pencil-square-o"></i></a>
+                            
+                                <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#owner-delete"><i class="fa fa-trash-o"></i></button>
                                   
                                   <div class="modal fade" id="owner-delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
@@ -104,10 +102,9 @@
                                     </div>
                                     </div>
                                   </div>
-                            </td>  
-                            
-                            <td><a class="btn btn-sm btn-info" href="{% url 'joy_detail' place.id %}">Batafsil</a></td>  
-                        
+                                                    
+                                <a class="btn btn-sm btn-info" href="{% url 'joy_detail' place.id %}"><i class="fa fa-eye"></i></a>
+                            </td>
                         </tr>
                         {% endfor %}
                     </tr>
