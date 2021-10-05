@@ -3,22 +3,13 @@
 {% block content %}
 
 {% include 'mini/navbar.html' %}
-      
-<div class="row">
-<div class="col-md-6 ">
-    
-    <div class="card text-center">
-        <div class="card-body">
-            <h4 class="box-title">{{place.owner}} ning ({{place.address}}) manzildagi joyining umumiy holati</h4>
-        </div>
-    </div>
-</div>
-</div>
 
 <div class="row">
     <div class="col-md-12">
-        <div class="card card-body ">
-            
+        <div class="card  ">
+            <div class="card-body">
+                <h2 class="box-title">"{{place.owner}}" ning <span style="border-bottom: 1px solid darkblue;">"{{place.address}}"</span> manzildagi joyi</h2>
+            </div>
 
         <div class="table-stats order-table ov-h">
             <table class="table">
@@ -29,7 +20,7 @@
                     <th>O'chirish</th>
 
                     <tr>   
-                        <td><span >{{place.address|truncatechars:9}}</span> </td>
+                        <td><span >{{place.address|truncatechars:30}}</span> </td>
                         <td><span >{{place.price}}</span></td>
                         {% if place.busy == "Band" %}
                         <td><span class="badge " style="background-color: crimson;">{{place.busy}}</span></td>
@@ -37,27 +28,7 @@
                         <td><span class="badge" style="background-color: green;">{{place.busy}}</span></td>
                         {% endif %}
                         
-                        <td>
-                            <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#joy-delete"> <i class="fa fa-trash-o"></i> </button>
-                              
-                              <!-- Modal -->
-                              <div class="modal fade" id="joy-delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                  <div class="modal-content">
-                                    <div class="modal-header">
-                                      <h5 class="modal-title" style="text-transform: none;" id="exampleModalLabel">({{place}}) ni o'chirmoqchimisiz?</h5>
-                                    </div>
-                                    <div class="modal-body">
-
-                                        <a type="button" class="btn btn-sm btn-secondary" data-dismiss="modal" href="{% url 'joy_detail' place.id %}">Bekor qilish</a>
-                                        <a type="button" class="btn btn-sm btn-danger" href="{% url 'delete_joy' place.id %}">O'chirish</a>   
-                                    
-                                        
-                                    </div>
-                                </div>
-                              </div>
-                              </div>
-                        </td>  
+                        <td><a type="button" class="btn btn-sm btn-danger" href="{% url 'delete_joy' place.id %}"><i class="fa fa-trash-o"></i> </a></td>  
                         
                     
                     </tr>
@@ -81,7 +52,6 @@
             <table class="table table-sm">
                 <tr>
                     <th>Tadbirkor</th>
-                    <th>Bog'langan joy</th>
                     <th>Boshlanish sanasi</th>
                     <th>Tugash sanasi</th>
                     <th>Amallar</th>
@@ -90,29 +60,11 @@
                 {% for i in active %}
                 <tr>
                     <td>{{ i.tadbirkor.name }}</td>
-                    <td>{{ i.place.address |truncatechars:9}}</td>
                     <td>{{ i.start_date }}</td>
                     <td>{{ i.end_date }}</td>
-                    <td><a class="btn btn-sm btn-info" href="{% url 'update_order' i.id %}"><i class="fa fa-pencil-square-o"></i></a>
-                    
-                
-                        <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#order-delete"><i class="fa fa-trash-o"></i></button>
-                          
-
-                          <!-- Modal -->
-                          <div class="modal fade" id="order-delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                              <div class="modal-content">
-                                <div class="modal-header">
-                                  <h5 class="modal-title" style="text-transform: none;" id="exampleModalLabel">({{i}}) ning buyurtmasini o'chirmoqchimisiz?</h5>
-                                </div>
-                                <div class="modal-body">
-                                        <a type="button" class="btn btn-sm btn-secondary" data-dismiss="modal" href="{% url 'home' %}">Bekor qilish</a>
-                                        <a type="button" class="btn btn-sm btn-danger" href="{% url 'delete_order' i.id %}">O'chirish</a>                                     
-                                </div>
-                            </div>
-                          </div>
-                          </div>
+                    <td>
+                        <a class="btn btn-sm btn-info" href="{% url 'update_order' i.id %}"><i class="fa fa-pencil-square-o"></i></a>
+                        <a type="button" class="btn btn-sm btn-danger" href="{% url 'delete_order' i.id %}"><i class="fa fa-trash-o"></i></a>                                     
                     </td>  
                 </tr>
                 {% endfor %}
@@ -128,14 +80,13 @@
 <div class="col-md-6">
     <div class="card ">
         <div class="card-body ">
-            <h4 class="box-title"> Vaqti o'tgan buyurtmalari</h4>
+            <h4 class="box-title"> Vaqti o'tgan buyurtmalar</h4>
         </div>
 
         <div class="table-stats order-table ov-h">
             <table class="table table-sm">
                 <tr>
                     <th>Tadbirkor</th>
-                    <th>Bog'langan joy</th>
                     <th>Boshlanish sanasi</th>
                     <th>Tugash sanasi</th>
                     <th>Amallar</th>
@@ -144,29 +95,11 @@
                 {% for i in not_active %}
                 <tr>
                     <td>{{ i.tadbirkor.name }}</td>
-                    <td>{{ i.place.address|truncatechars:9 }}</td>
                     <td>{{ i.start_date }}</td>
                     <td>{{ i.end_date }}</td>
-                    <td><a class="btn btn-sm btn-info" href="{% url 'update_order' i.id %}"><i class="fa fa-pencil-square-o"></i></a>
-                    
-                
-                        <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#order-delete"><i class="fa fa-trash-o"></i></button>
-                          
-
-                          <!-- Modal -->
-                          <div class="modal fade" id="order-delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                              <div class="modal-content">
-                                <div class="modal-header">
-                                  <h5 class="modal-title" style="text-transform: none;" id="exampleModalLabel">({{i}}) ning buyurtmasini o'chirmoqchimisiz?</h5>
-                                </div>
-                                <div class="modal-body">
-                                        <a type="button" class="btn btn-sm btn-secondary" data-dismiss="modal" href="{% url 'home' %}">Bekor qilish</a>
-                                        <a type="button" class="btn btn-sm btn-danger" href="{% url 'delete_order' i.id %}">O'chirish</a>                                     
-                                </div>
-                            </div>
-                          </div>
-                          </div>
+                    <td>
+                        <a class="btn btn-sm btn-info" href="{% url 'update_order' i.id %}"><i class="fa fa-pencil-square-o"></i></a>
+                        <a type="button" class="btn btn-sm btn-danger" href="{% url 'delete_order' i.id %}"><i class="fa fa-trash-o"></i></a>                                     
                     </td>  
                 </tr>
                 {% endfor %}
@@ -179,7 +112,6 @@
 
 </div>
 
-</div>
 <div class="row">
     <div class="col-md-6">
         

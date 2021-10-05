@@ -6,12 +6,14 @@ from django.shortcuts import render, redirect, get_object_or_404
 from banner.forms import OrderForm, TadbirkorForm, JoyForm, OwnerForm
 from django.contrib.auth.decorators import login_required
 
+from banner.decorators import unauthenticated_user, allowed_users, admin_only
 from django.contrib import messages
 
 
 
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
 def createOwner(request):
     form = OwnerForm()
 
@@ -26,7 +28,9 @@ def createOwner(request):
 
 
 
+
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
 def updateOwner(request, pk):
     if request.user.id == pk:
         egasi = Place_owner.objects.get(id=pk)
@@ -44,11 +48,21 @@ def updateOwner(request, pk):
         return HttpResponse("Sizga bu sahifaga kirish mumkin emas!")
 
 
+
+
+
+#DELETE
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
 def deleteOwner(request, pk):
     egasi = Place_owner.objects.get(id=pk)
-    egasi.delete()
-    return redirect('/')
+    if request.method == 'POST':
+        egasi.delete()
+        return redirect('/')
+        
+    context = {'item':egasi}
+    return render(request, 'delete_owner.html', context)
+
 
 
 
@@ -68,6 +82,7 @@ def createTadbirkor(request):
 
 
 
+
 @login_required(login_url='login')
 def updateTadbirkor(request, pk):
     tadbirkor = Tadbirkor.objects.get(id=pk)
@@ -84,11 +99,22 @@ def updateTadbirkor(request, pk):
 
 
 
+
+
+#DELETE
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
 def deleteTadbirkor(request, pk):
-    tadbirkor = get_object_or_404(Tadbirkor, id=pk)
-    tadbirkor.delete()
-    return redirect('tadbirkor')
+    tadbirkor = Tadbirkor.objects.get(id=pk)
+    if request.method == 'POST':
+        tadbirkor.delete()
+        return redirect('/')
+        
+    context = {'item':tadbirkor}
+    return render(request, 'delete_tadbirkor.html', context)
+
+
+
 
 
 
@@ -98,12 +124,9 @@ def deleteTadbirkor(request, pk):
 
 @login_required(login_url='login')
 def createJoy(request):
-
     form = JoyForm()
     if request.method == 'POST':    
-        
         form = JoyForm(request.POST, request.FILES)
-
         if form.is_valid():
             joy = form.save(commit=False)
             joy.owner = request.user
@@ -113,7 +136,6 @@ def createJoy(request):
         else:
             messages.error(request, 'Sizda hatolik yuz berdi')
             return redirect('user_page', pk=request.user.id)
-
 
     context = {'form': form}
     return render(request, 'forms/create_joy.html', context)
@@ -142,12 +164,17 @@ def updateJoy(request, pk):
         return HttpResponse("Sizga bu sahifaga kirish mumkin emas!")
 
 
+#DELETE
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
 def deleteJoy(request, pk):
-    joy = get_object_or_404(Place, id=pk)
-    joy.delete()
-    return redirect('user_page', pk=request.user.id)
-
+    joy = Place.objects.get(id=pk)
+    if request.method == 'POST':
+        joy.delete()
+        return redirect('joylar')
+        
+    context = {'joy':joy}
+    return render(request, 'forms/delete_joy.html', context)
 
 
 
@@ -171,7 +198,6 @@ def createOrder(request):
         
         if form.is_valid():
             form.save()
-            
             messages.success(request, 'Buyurtma amalga ochirildi.')
             return redirect('orders')
 
@@ -192,7 +218,7 @@ def updateOrder(request, pk):
             return redirect('orders')
 
     context = {'form': form}
-    return render(request, 'forms/order_form.html', context)
+    return render(request, 'forms/update_order.html', context)
 
 
 @login_required(login_url='login')
@@ -200,3 +226,19 @@ def deleteOrder(request, pk):
     order = get_object_or_404(Order, id=pk)
     order.delete()
     return redirect('orders')
+
+
+
+
+
+#DELETE
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
+def deleteOrder(request, pk):
+    order = Order.objects.get(id=pk)
+    if request.method == 'POST':
+        order.delete()
+        return redirect('orders')
+        
+    context = {'item':order}
+    return render(request, 'forms/delete_order.html', context)

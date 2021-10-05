@@ -49,15 +49,15 @@ class Order(models.Model):
         ('NotActive', 'NotActive')
     )
 
-    tadbirkor = models.ForeignKey(Tadbirkor, null=True, on_delete=models.CASCADE)
-    place = models.ForeignKey(Place, null=True, on_delete=models.CASCADE)
+    tadbirkor = models.ForeignKey(Tadbirkor, null=True, on_delete=models.DO_NOTHING)
+    place = models.ForeignKey(Place, null=True, on_delete=models.DO_NOTHING)
     start_date = models.DateField(null=True)
     end_date = models.DateField(null=True)
     status = models.CharField(max_length=100, default='Active', null=True, choices=STATUS)
 
 
     def __str__(self) -> str:
-        return f"{self.tadbirkor.name} - {self.place.address}"
+        return f"{self.tadbirkor.name} ning ({self.place.address}) ga bog'langan"
 
 
     

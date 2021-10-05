@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+{% include 'mini/navbar.html' %}
+      
+<br>
+<div class="row">
+    <div class="col-md-6">
+        <div class="card ">
+            <div class="card-body">
+                
+            <p>Haqiqatan ham <span style="border: 2px solid black; color: black;">"{{joy}}ni"</span> o'chirmoqchimisiz?</p>
+            <form action="{% url 'delete_joy' joy.id %}" method="POST">
+            
+            {% csrf_token %}
+            <a class="btn btn-warning" href="{% url 'joy_detail' joy.id %}">Bekor qilmoq</a>
+
+            <input class="btn btn-danger" type="submit" value="O'chirish" name="O'chirish">
+            </form>
+        </div>
+
+    </div>
+    </div>
+</div>
+
+
+{% endblock content %}

@@ -8,14 +8,15 @@
 
 <br>
 <div class="row">
-    <div class="col-md">
+    <div class="col-md-6">
         <div class="card">
         <div class="card-body">
-            <h5>Joy egasi: {{ user.username }}</h5>
-            <hr>
-            
-            <a class="btn btn-outline-info  btn-sm btn-block" href="{% url 'update_owner' user.id %}">O'zgartirish</a>
-                    
+            <div style="display: flex; justify-content: space-between;">
+                
+                <h5>Joy egasi: {{ user.username }}</h5>
+                <a class="btn btn-info  btn-sm " href="{% url 'update_owner' user.id %}"><i class="fa fa-pencil-square-o"></i></a>
+                
+            </div>    
                         
         </div>
     </div>
@@ -51,7 +52,9 @@
        
         <div class="card-body" style="display: flex; justify-content: space-between;">
             <h4 class="box-title">Bo'sh joylarim</h4>
-            <a class="btn btn-sm btn-info" href="{% url 'create_joy' %}">Joy qo'shish</a>
+            <a class="btn  btn-primary" href="{% url 'create_joy' %}">
+                <span>+</span>
+            </a>
         </div>
             <div class="table-stats order-table ov-h">
                 <table class="table">
@@ -67,7 +70,7 @@
                             <td><span >{{free.price}}</span></td>
                             <td><span class="badge" style="background-color: green;">{{free.busy}}</span></td>
                             <td>
-                                <a class="btn btn-sm btn-info" href="{% url 'update_joy' free.id %}"><i class="fa fa-pencil-square-o"></i></a>
+                                <a class="btn btn-sm btn-secondary" href="{% url 'update_joy' free.id %}"><i class="fa fa-pencil-square-o"></i></a>
                                 <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="{{ free.id }}"> <i class="fa fa-trash-o"></i> </button>
                                 <div class="modal fade" id="{{ free.id }}" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel" aria-hidden="true">
 
@@ -114,17 +117,16 @@
                         <th>Narxi</th>
                         <th>Joy holati</th>
                         <th>O'zgartirish</th>
-                        <th>O'chirish</th>
-                        <th>Ko'rish</th>
+                        <th>Amallar</th>
 
                         {% for busy in busy_places %}
                         <tr style="text-transform: none;">   
                             <td><span >{{busy.address|truncatechars:9}}</span> </td>
                             <td><span >{{busy.price}}</span></td>
                             <td><span class="badge" style="background-color: crimson;">{{busy.busy}}</span></td>
-                            <td><a class="btn btn-sm btn-info" href="{% url 'update_joy' busy.id %}">O'zgartirish</a></td>
+                            <td><a class="btn btn-sm btn-secondary" href="{% url 'update_joy' busy.id %}"><i class="fa fa-pencil-square-o"></i></a></td>
                             <td>
-                                <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="{{ busy.id }}"> O'chirish </button>
+                                <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="{{ busy.id }}"> <i class="fa fa-trash-o"></i></button>
                                   
                                   <div class="modal fade" id="{{ busy.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
@@ -141,7 +143,7 @@
                                   </div>
                             </td>  
                             
-                            <td><a class="btn btn-sm btn-info" href="{% url 'detail' busy.id %}">Batafsil</a></td>  
+                            <td><a class="btn btn-sm btn-info" href="{% url 'detail' busy.id %}"><i class="fa fa-eye"></i></a></td>  
                         
                         </tr>
                         {% endfor %}
