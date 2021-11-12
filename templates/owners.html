@@ -37,8 +37,29 @@
                             </tr>
                             {% endfor %}
                         </tr>
-                    </table>
+                    </table> <hr>
                 </div>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination" >
+                        {% if egalari_P.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{egalari_P.previous_page_number }}">oldingi sahifa</a>
+                        </li>
+                        {% endif %} 
+            
+                        {% for i in num_of_egalari %}
+                        <li class="page-item"><a class="page-link" href="?page={{forloop.counter}}">
+                        {{forloop.counter}}
+                        </a></li>
+                        {% endfor %}
+                
+                        {% if  egalari_P.has_next%}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{egalari_P.next_page_number}}" >keyingi sahifa</a>
+                        </li>
+                        {% endif %}             
+                    </ul>
+                  </nav>    
             </div>
         </div>
     </div>

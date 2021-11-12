@@ -60,7 +60,7 @@
                 
             </div>
                 <div class="table-stats order-table ov-h">
-                    <table class="table">
+                <table class="table">
                 <tr>
                     <th>Tadbirkor</th>
                     <th>Joy</th>
@@ -69,7 +69,7 @@
                     <th>Amallar</th>
                 </tr>
 
-                {% for i in current_orders %}
+                {% for i in co_P %}
                 <tr>
                     <td>{{ i.tadbirkor.name }}</td>
                     <td>{{ i.place.address|truncatechars:9}}</td>
@@ -84,6 +84,28 @@
                 {% endfor %}
                     
                 </table>
+                <hr>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination" >
+                        {% if co_P.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{co_P.previous_page_number }}">oldingi sahifa</a>
+                        </li>
+                        {% endif %} 
+            
+                        {% for i in num_of_co %}
+                        <li class="page-item"><a class="page-link" href="?page={{forloop.counter}}">
+                        {{forloop.counter}}
+                        </a></li>
+                        {% endfor %}
+                
+                        {% if co_P.has_next%}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{co_P.next_page_number}}" >keyingi sahifa</a>
+                        </li>
+                        {% endif %}             
+                    </ul>
+                </nav>
             </div>
         </div>
 
@@ -99,7 +121,7 @@
                 
             </div>
                 <div class="table-stats order-table ov-h">
-                    <table class="table">
+                <table class="table">
                 <tr>
                     <th>Tadbirkor</th>
                     <th>Joy</th>
@@ -108,7 +130,7 @@
                     <th>Amallar</th>
                 </tr>
 
-                {% for i in history %}
+                {% for i in history_P %}
                 <tr>
                     <td>{{ i.tadbirkor.name }}</td>
                     <td>{{ i.place.address|truncatechars:9 }}</td>
@@ -122,7 +144,28 @@
                 </tr>
                 {% endfor %}
                     
-                </table>
+                </table><hr>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination" >
+                        {% if history_P.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page2={{history_P.previous_page_number }}">oldingi sahifa</a>
+                        </li>
+                        {% endif %} 
+            
+                        {% for i in num_of_history %}
+                        <li class="page-item"><a class="page-link" href="?page2={{forloop.counter}}">
+                        {{forloop.counter}}
+                        </a></li>
+                        {% endfor %}
+                
+                        {% if history_P.has_next%}
+                        <li class="page-item">
+                            <a class="page-link" href="?page2={{history_P.next_page_number}}" >keyingi sahifa</a>
+                        </li>
+                        {% endif %}             
+                    </ul>
+                </nav>
             </div>
         </div>
 

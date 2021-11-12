@@ -2509,3 +2509,14 @@ footer.site-footer {
     right: 20px !important; }
 
 /*# sourceMappingURL=style.css.map */
+.pagination{
+  margin-left: 15%
+}
+.page-link{
+  background-color: #17A2B8;
+  color: #FFFFFF;
+}
+.page-link:hover{
+  background-color: #20808f;
+  color: #FFFFFF;
+}

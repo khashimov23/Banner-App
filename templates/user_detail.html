@@ -60,13 +60,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-        
-
-
-                           
-                        </td>  
-                        
+                                </div>                          
+                        </td>                        
                     
                     </tr>
                 </tr>
@@ -94,7 +89,7 @@
                     <th>Tugash sanasi</th>
                 </tr>
 
-                {% for i in active %}
+                {% for i in active_P %}
                 <tr>
                     <td>{{ i.tadbirkor.name }}</td>
                     <td>{{ i.place.address|truncatechars:9 }}</td>
@@ -103,6 +98,28 @@
                 </tr>
                 {% endfor %}
             </table>
+            <hr>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination" >
+                    {% if active_P.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page1={{active_P.previous_page_number }}">oldingi sahifa</a>
+                    </li>
+                    {% endif %} 
+        
+                    {% for i in num_of_active %}
+                    <li class="page-item"><a class="page-link" href="?page1={{forloop.counter}}">
+                    {{forloop.counter}}
+                    </a></li>
+                    {% endfor %}
+            
+                    {% if active_P.has_next%}
+                    <li class="page-item">
+                        <a class="page-link" href="?page1={{active_P.next_page_number}}" >keyingi sahifa</a>
+                    </li>
+                    {% endif %}             
+                </ul>
+            </nav>
             </div>
 
         
@@ -126,7 +143,7 @@
                     <th>Tugash sanasi</th>
                 </tr>
 
-                {% for i in not_active %}
+                {% for i in not_active_P %}
                 <tr>
                     <td>{{ i.tadbirkor.name }}</td>
                     <td>{{ i.place.address|truncatechars:9 }}</td>
@@ -135,9 +152,29 @@
                 </tr>
                 {% endfor %}
             </table>
-            </div>
-
+            <hr>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination" >
+                    {% if not_active_P.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page2={{not_active_P.previous_page_number }}">oldingi sahifa</a>
+                    </li>
+                    {% endif %} 
         
+                    {% for i in num_of_not_active %}
+                    <li class="page-item"><a class="page-link" href="?page2={{forloop.counter}}">
+                    {{forloop.counter}}
+                    </a></li>
+                    {% endfor %}
+            
+                    {% if not_active_P.has_next%}
+                    <li class="page-item">
+                        <a class="page-link" href="?page2={{not_active_P.next_page_number}}" >keyingi sahifa</a>
+                    </li>
+                    {% endif %}             
+                </ul>
+            </nav>
+            </div>        
     </div>
 </div>
 

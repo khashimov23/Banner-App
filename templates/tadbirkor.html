@@ -49,7 +49,7 @@
 
                         <th>Ko'rish</th>
 
-                        {% for tadbirkor in tadbirkorlar %}
+                        {% for tadbirkor in tadbirlorlar_P %}
                         <tr>         
                             <td><span>{{tadbirkor.name}}</span></td>
                             <td><span>{{tadbirkor.phone}}</span></td>
@@ -60,6 +60,27 @@
                         {% endfor %}
                     </tr>
                 </table>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination" >
+                        {% if tadbirlorlar_P.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{tadbirlorlar_P.previous_page_number }}">oldingi sahifa</a>
+                        </li>
+                        {% endif %} 
+            
+                        {% for i in num_of_egalari %}
+                        <li class="page-item"><a class="page-link" href="?page={{forloop.counter}}">
+                        {{forloop.counter}}
+                        </a></li>
+                        {% endfor %}
+                
+                        {% if tadbirlorlar_P.has_next%}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{tadbirlorlar_P.next_page_number}}" >keyingi sahifa</a>
+                        </li>
+                        {% endif %}             
+                    </ul>
+                </nav>
             </div>
         </div>
     </div>

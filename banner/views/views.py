@@ -1,3 +1,4 @@
+from django.core import paginator
 from banner.models import Order, Place, Place_owner, Tadbirkor
 from django.shortcuts import render, redirect, get_object_or_404
 
@@ -8,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 from banner.decorators import unauthenticated_user, allowed_users, admin_only
 from datetime import date
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 
 def change_posts_status():
@@ -96,7 +98,19 @@ def home(request):
               "phone": eg.phone,
               "places_count": places_count}
         egalari.append(dt)
+    ##paginator 
+    p = Paginator(egasi, 1)
+    page = request.GET.get('page')
+    egalari_P = p.get_page(page)
+    num_of_egalari = 'a' * egalari_P.paginator.num_pages
 
+
+    pag = Paginator(active, 2)
+    page2 = request.GET.get('page2')
+    amalda = pag.get_page(page2)
+    num_of_active = 'a' * amalda.paginator.num_pages
+    ##endpaginator
+    
     places = Place.objects.all()
     free_places = places.filter(busy="Bo'sh").count()
     busy_places = places.filter(busy="Band").count()
@@ -113,7 +127,12 @@ def home(request):
         'busy_places': busy_places,
         'total_places': total_places,
         'total_orders': total_orders,
-        'total_owners': total_owners
+        'total_owners': total_owners,
+        'egalari_P':egalari_P,
+        'num_of_egalari':num_of_egalari,
+        'amalda': amalda,
+        'num_of_active':num_of_active
+
     }
     return render(request, 'dashboard.html', context)
 
@@ -131,11 +150,29 @@ def order(request):
     now_count = current_orders.count()
     history_count = history.count()
 
+    #PAGINATOR
+
+    p = Paginator(current_orders, 1)
+    page = request.GET.get('page')
+    co_P = p.get_page(page)
+    num_of_co = 'a' * co_P.paginator.num_pages
+
+    p2 = Paginator(history, 1)
+    page2 = request.GET.get('page2')
+    history_P = p2.get_page(page2)
+    num_of_history = 'a' * history_P.paginator.num_pages
+
+    ##ENDPAGINATOR
+
     context = {'orders': orders,
                'now_count': now_count,
                'history_count': history_count,
                'history': history,
                'current_orders': current_orders,
+               'co_P':co_P,
+               'num_of_co':num_of_co,
+               'history_P':history_P,
+               'num_of_history':num_of_history
                }
     return render(request, 'orders.html', context)
 
@@ -145,7 +182,22 @@ def order(request):
 def tadbirkor(request):
     tadbirkorlar = Tadbirkor.objects.all()
     tadbirkorlar_soni = tadbirkorlar.count()
-    return render(request, 'tadbirkor.html', {'tadbirkorlar': tadbirkorlar, 'tadbirkorlar_soni': tadbirkorlar_soni})
+
+    #PAGINATOR
+    p = Paginator(tadbirkorlar, 1)
+    page = request.GET.get('page')
+    tadbirlorlar_P = p.get_page(page)
+    num_of_egalari = 'a' * tadbirlorlar_P.paginator.num_pages
+    #END PAGINATOR
+
+    context = {
+          'tadbirkorlar_soni': tadbirkorlar_soni,
+          'num_of_egalari':num_of_egalari,
+          'tadbirlorlar_P':tadbirlorlar_P,
+
+      }
+
+    return render(request, 'tadbirkor.html',context)
 
 
 @login_required(login_url='login')
@@ -154,11 +206,19 @@ def tadbirkor_detail(request, pk):
     tadbirkor = get_object_or_404(Tadbirkor, id=pk)
     orders = tadbirkor.order_set.all()
     orders_count = tadbirkor.order_set.all().count()
-
+    
+    #PAGINATOR
+    p = Paginator(orders, 1)
+    page = request.GET.get('page')
+    order_P = p.get_page(page)
+    num_of_order = 'a' * order_P.paginator.num_pages
+    #END PAGINATOR
     context = {
         'tadbirkor': tadbirkor,
-        'orders': orders,
-        'orders_count': orders_count}
+        'orders_count': orders_count,
+        'order_P':order_P,
+        'num_of_order':num_of_order
+        }
     return render(request, 'tad_detail.html', context)
 
 
@@ -185,7 +245,12 @@ def owners(request):
             "places_count": places_count
         }
         egasi.append(dt)
-
+    #paginator
+    p = Paginator(egasi, 1)
+    page = request.GET.get('page')
+    egalari_P = p.get_page(page)
+    num_of_egalari = 'a' * egalari_P.paginator.num_pages
+    # endpaginator
     context = {
         'places': places,
         'egasi': egasi,
@@ -193,6 +258,9 @@ def owners(request):
         'busy_places': busy_places,
         'total_places': total_places,
         'total_owners': total_owners,
+        'egalari_P':egalari_P,
+        'num_of_egalari':num_of_egalari,
+        
     }
     return render(request, 'owners.html', context)
 
@@ -205,7 +273,6 @@ def owner_detail(request, pk):
     egasi = get_object_or_404(Place_owner, id=pk, is_staff=False)
     places = egasi.place_set.all()
     places_count = places.count()
-
     context = {
         'egasi': egasi,
         'places': places,
@@ -226,13 +293,28 @@ def joylar(request):
     free_places_count = free_places.count()
     busy_places_count = busy_places.count()
     total_places_count = places.count()
+    
+    #paginator
+    p = Paginator(free_places, 1)
+    page = request.GET.get('page')
+    free_P = p.get_page(page)
+    num_of_free = 'a' * free_P.paginator.num_pages
+
+    p2 = Paginator(busy_places, 1)
+    page2 = request.GET.get('page2')
+    busy_P = p.get_page(page2)
+    num_of_busy = 'a' * busy_P.paginator.num_pages
+    # endpaginator
+
     context = {
         'places': places,
-        'free_places': free_places,
-        'busy_places': busy_places,
         'free_places_count': free_places_count,
         'busy_places_count': busy_places_count,
         'total_places_count': total_places_count,
+        'free_P':free_P,
+        'num_of_free':num_of_free,
+        'busy_P':busy_P,
+        'num_of_busy':num_of_busy,
     }
     return render(request, 'joylar.html', context)
 
@@ -279,17 +361,43 @@ def userPage(request):
     active_count = orders.filter(status='Active').count()
     active = orders.filter(status='Active')
     history = orders.filter(status='NotActive')
+    #paginator
+    p = Paginator(free_places, 1)
+    page = request.GET.get('page')
+    free_P = p.get_page(page)
+    num_of_free = 'a' * free_P.paginator.num_pages
+
+    
+    p2 = Paginator(busy_places, 1)
+    page2 = request.GET.get('page2')
+    busy_P = p.get_page(page2)
+    num_of_busy = 'a' * busy_P.paginator.num_pages
+
+    p3 = Paginator(active, 1)
+    page3 = request.GET.get('page3')
+    active_P = p.get_page(page3)
+    num_of_active = 'a' * active_P.paginator.num_pages
+    
+    
+    p4 = Paginator(history, 1)
+    page4 = request.GET.get('page4')
+    history_P = p.get_page(page4)
+    num_of_history = 'a' * history_P.paginator.num_pages
+    # endpaginator
 
     context = {
-        'places': places,
-        'free_places': free_places,
-        'busy_places': busy_places,
         'places_count': places_count,
         'free_places_count': free_places_count,
         'busy_places_count': busy_places_count,
-        'active':active,
-        'history': history,
         'active_count': active_count,
+        'free_P':free_P,
+        'num_of_free':num_of_free,
+        'busy_P':busy_P,
+        'num_of_busy':num_of_busy,
+        'active_P':active_P,
+        'num_of_active':num_of_active,
+        'history_P':history_P,
+        'num_of_history':num_of_history,
     }
     return render(request, 'user-place.html', context)
 
@@ -308,10 +416,25 @@ def detailPage(request, pk):
     active = orders.filter(status='Active')
     not_active = orders.filter(status='NotActive')
 
+    #paginator
+    p1 = Paginator(active, 1)
+    page1 = request.GET.get('page1')
+    active_P = p1.get_page(page1)
+    num_of_active = 'a' * active_P.paginator.num_pages
+
+    p2 = Paginator(not_active, 1)
+    page2 = request.GET.get('page2')
+    not_active_P = p2.get_page(page2)
+    num_of_not_active = 'a' * not_active_P.paginator.num_pages
+
     context = {
         'place': place,
         'orders': orders,
         'active': active,
         'not_active': not_active,
+        'active_P':active_P,
+        'num_of_active':num_of_active,
+        'not_active_P':not_active_P,
+        'num_of_not_active':num_of_not_active
     }
     return render(request, 'user_detail.html', context)

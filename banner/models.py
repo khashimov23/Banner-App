@@ -50,7 +50,7 @@ class Order(models.Model):
     )
 
     tadbirkor = models.ForeignKey(Tadbirkor, null=True, on_delete=models.DO_NOTHING)
-    place = models.ForeignKey(Place, null=True, on_delete=models.DO_NOTHING)
+    place = models.ForeignKey(Place, limit_choices_to={'busy':"Bo'sh"}, null=True, on_delete=models.DO_NOTHING)
     start_date = models.DateField(null=True)
     end_date = models.DateField(null=True)
     status = models.CharField(max_length=100, default='Active', null=True, choices=STATUS)
@@ -58,6 +58,3 @@ class Order(models.Model):
 
     def __str__(self) -> str:
         return f"{self.tadbirkor.name} ning ({self.place.address}) ga bog'langan"
-
-
-    

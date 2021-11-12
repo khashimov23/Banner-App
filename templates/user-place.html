@@ -64,7 +64,7 @@
                         <th>Joy holati</th>
                         <th>Amallar</th>
 
-                        {% for free in free_places %}
+                        {% for free in free_P %}
                         <tr style="text-transform: none;">   
                             <td><span >{{free.address|truncatechars:9}}</span> </td>
                             <td><span >{{free.price}}</span></td>
@@ -98,6 +98,28 @@
                         {% endfor %}
                     </tr>
                 </table>
+                <hr>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination" >
+                        {% if free_P.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{free_P.previous_page_number }}">oldingi sahifa</a>
+                        </li>
+                        {% endif %} 
+            
+                        {% for i in num_of_free %}
+                        <li class="page-item"><a class="page-link" href="?page={{forloop.counter}}">
+                        {{forloop.counter}}
+                        </a></li>
+                        {% endfor %}
+                
+                        {% if  free_P.has_next%}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{free_P.next_page_number}}" >keyingi sahifa</a>
+                        </li>
+                        {% endif %}             
+                    </ul>
+                </nav>
             </div>
         </div>
     </div>
@@ -119,7 +141,7 @@
                         <th>O'zgartirish</th>
                         <th>Amallar</th>
 
-                        {% for busy in busy_places %}
+                        {% for busy in busy_P %}
                         <tr style="text-transform: none;">   
                             <td><span >{{busy.address|truncatechars:9}}</span> </td>
                             <td><span >{{busy.price}}</span></td>
@@ -149,6 +171,28 @@
                         {% endfor %}
                     </tr>
                 </table>
+                <hr>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination" >
+                        {% if busy_P.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page2={{busy_P.previous_page_number }}">oldingi sahifa</a>
+                        </li>
+                        {% endif %} 
+            
+                        {% for i in num_of_busy %}
+                        <li class="page-item"><a class="page-link" href="?page2={{forloop.counter}}">
+                        {{forloop.counter}}
+                        </a></li>
+                        {% endfor %}
+                
+                        {% if busy_P.has_next%}
+                        <li class="page-item">
+                            <a class="page-link" href="?page2={{busy_P.next_page_number}}" >keyingi sahifa</a>
+                        </li>
+                        {% endif %}             
+                    </ul>
+                </nav>
             </div>
         </div>
     </div>
@@ -175,7 +219,7 @@
                     <th>Tugash sanasi</th>
                 </tr>
 
-                {% for i in active %}
+                {% for i in active_P %}
                 <tr>
                     <td>{{ i.tadbirkor.name }}</td>
                     <td>{{ i.place.address|truncatechars:9 }}</td>
@@ -185,6 +229,28 @@
                 {% endfor %}
                     
                 </table>
+                <hr>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination" >
+                        {% if active_P.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page3={{active_P.previous_page_number }}">oldingi sahifa</a>
+                        </li>
+                        {% endif %} 
+            
+                        {% for i in num_of_active %}
+                        <li class="page-item"><a class="page-link" href="?page3={{forloop.counter}}">
+                        {{forloop.counter}}
+                        </a></li>
+                        {% endfor %}
+                
+                        {% if  active_P.has_next%}
+                        <li class="page-item">
+                            <a class="page-link" href="?page3={{active_P.next_page_number}}" >keyingi sahifa</a>
+                        </li>
+                        {% endif %}             
+                    </ul>
+                </nav>
             </div>
         </div>
 
@@ -208,7 +274,7 @@
                     <th>Tugash sanasi</th>
                 </tr>
 
-                {% for i in history %}
+                {% for i in history_P %}
                 <tr>
                     <td>{{ i.tadbirkor.name }}</td>
                     <td>{{ i.place.address|truncatechars:9 }}</td>
@@ -217,7 +283,28 @@
                 </tr>
                 {% endfor %}
                     
-                </table>
+                </table><hr>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination" >
+                        {% if history_P.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page4={{history_P.previous_page_number }}">oldingi sahifa</a>
+                        </li>
+                        {% endif %} 
+            
+                        {% for i in num_of_history %}
+                        <li class="page-item"><a class="page-link" href="?page4={{forloop.counter}}">
+                        {{forloop.counter}}
+                        </a></li>
+                        {% endfor %}
+                
+                        {% if  history_P.has_next%}
+                        <li class="page-item">
+                            <a class="page-link" href="?page4={{history_P.next_page_number}}" >keyingi sahifa</a>
+                        </li>
+                        {% endif %}             
+                    </ul>
+                </nav>
             </div>
         </div>
 

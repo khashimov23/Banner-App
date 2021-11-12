@@ -70,7 +70,7 @@
                     <th>O'chirish</th>
                 </tr>
 
-                {% for i in orders %}
+                {% for i in order %}
                 <tr>
                     <td>{{ i.tadbirkor.name }}</td>
                     <td>{{ i.place.address|truncatechars:9 }}</td>
@@ -81,6 +81,28 @@
                 </tr>
                 {% endfor %}
             </table>
+            <hr>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination" >
+                    {% if order_P.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{order_P.previous_page_number }}">oldingi sahifa</a>
+                    </li>
+                    {% endif %} 
+        
+                    {% for i in num_of_order %}
+                    <li class="page-item"><a class="page-link" href="?page={{forloop.counter}}">
+                    {{forloop.counter}}
+                    </a></li>
+                    {% endfor %}
+            
+                    {% if order_P.has_next%}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{order_P.next_page_number}}" >keyingi sahifa</a>
+                    </li>
+                    {% endif %}             
+                </ul>
+            </nav>
         </div>
         </div>
     </div>
